@@ -134,10 +134,10 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel3)
-                .addContainerGap(1013, Short.MAX_VALUE))
+                .addContainerGap(623, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 150, 1140));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Dubai", 0, 36)); // NOI18N
         jLabel4.setText("DASHBOARD");
@@ -301,7 +301,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 1770, 1080));
 
-        setBounds(0, 0, 1934, 1011);
+        setBounds(0, 0, 1934, 1087);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
