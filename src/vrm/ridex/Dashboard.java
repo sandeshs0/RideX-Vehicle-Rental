@@ -26,33 +26,50 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel17 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        vechiclesOnFleetCard = new javax.swing.JPanel();
+        txtVehiclesCard = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        NavBar = new javax.swing.JPanel();
+        logo = new javax.swing.JLabel();
+        OnRentCard = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        txtOnRent = new javax.swing.JLabel();
+        BookingCard = new javax.swing.JPanel();
+        txtBooking = new javax.swing.JLabel();
+        bookinglab = new javax.swing.JLabel();
+        AlertsCard = new javax.swing.JPanel();
+        txtAlerts = new javax.swing.JLabel();
+        AlertsLab = new javax.swing.JLabel();
+        OverdueCard = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
+        txtOverdue = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        btnSearchVehicle = new javax.swing.JButton();
+        makeYearDropdown = new javax.swing.JComboBox<>();
+        modelDropdown = new javax.swing.JComboBox<>();
+        typeDropdown = new javax.swing.JComboBox<>();
+        categoryDropdown = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnViewProfile = new javax.swing.JButton();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        jLabel17.setFont(new java.awt.Font("Dubai", 0, 36)); // NOI18N
+        jLabel17.setText("DASHBOARD");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 0, 51));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
@@ -62,7 +79,8 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(30, 18, 100, 100);
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 0, 0);
 
         jTextField1.setBackground(new java.awt.Color(232, 247, 255));
         jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -71,7 +89,8 @@ public class Dashboard extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 17, 250, 38));
+        getContentPane().add(jTextField1);
+        jTextField1.setBounds(191, 17, 250, 38);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vrm/ridex/searchbtn.png"))); // NOI18N
         jButton1.setBorder(null);
@@ -82,226 +101,231 @@ public class Dashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(447, 17, -1, 38));
+        getContentPane().add(jButton1);
+        jButton1.setBounds(447, 17, 36, 38);
 
-        jPanel2.setBackground(new java.awt.Color(16, 3, 35));
+        vechiclesOnFleetCard.setBackground(new java.awt.Color(16, 3, 35));
+        vechiclesOnFleetCard.setLayout(null);
 
-        jLabel2.setFont(new java.awt.Font("Dubai", 1, 48)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("10");
+        txtVehiclesCard.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
+        txtVehiclesCard.setForeground(new java.awt.Color(255, 255, 255));
+        txtVehiclesCard.setText("10");
+        vechiclesOnFleetCard.add(txtVehiclesCard);
+        txtVehiclesCard.setBounds(10, 3, 110, 90);
 
         jLabel5.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Vehicles on Fleet");
+        vechiclesOnFleetCard.add(jLabel5);
+        jLabel5.setBounds(10, 110, 170, 42);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5))
-        );
+        getContentPane().add(vechiclesOnFleetCard);
+        vechiclesOnFleetCard.setBounds(190, 120, 230, 160);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 200, 130));
+        NavBar.setBackground(new java.awt.Color(221, 229, 239));
+        NavBar.setLayout(null);
 
-        jPanel3.setBackground(new java.awt.Color(221, 229, 239));
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vrm/ridex/logoride 2.png"))); // NOI18N
+        NavBar.add(logo);
+        logo.setBounds(20, 27, 116, 100);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vrm/ridex/logoride 2.png"))); // NOI18N
+        getContentPane().add(NavBar);
+        NavBar.setBounds(0, 0, 150, 880);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel3)
-                .addContainerGap(623, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        jLabel4.setFont(new java.awt.Font("Dubai", 0, 36)); // NOI18N
-        jLabel4.setText("DASHBOARD");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 61, 233, -1));
-
-        jPanel4.setBackground(new java.awt.Color(68, 160, 116));
-
-        jLabel6.setFont(new java.awt.Font("Dubai", 1, 48)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("10");
+        OnRentCard.setBackground(new java.awt.Color(68, 160, 116));
+        OnRentCard.setLayout(null);
 
         jLabel7.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("On Rent");
+        OnRentCard.add(jLabel7);
+        jLabel7.setBounds(20, 110, 100, 40);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addContainerGap())
-        );
+        txtOnRent.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
+        txtOnRent.setForeground(new java.awt.Color(255, 255, 255));
+        txtOnRent.setText("10");
+        OnRentCard.add(txtOnRent);
+        txtOnRent.setBounds(10, 0, 110, 90);
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, 200, 130));
+        getContentPane().add(OnRentCard);
+        OnRentCard.setBounds(450, 120, 230, 160);
 
-        jPanel5.setBackground(new java.awt.Color(50, 116, 178));
+        BookingCard.setBackground(new java.awt.Color(50, 116, 178));
+        BookingCard.setLayout(null);
 
-        jLabel8.setBackground(new java.awt.Color(50, 116, 178));
-        jLabel8.setFont(new java.awt.Font("Dubai", 1, 48)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("10");
+        txtBooking.setBackground(new java.awt.Color(50, 116, 178));
+        txtBooking.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
+        txtBooking.setForeground(new java.awt.Color(255, 255, 255));
+        txtBooking.setText("10");
+        BookingCard.add(txtBooking);
+        txtBooking.setBounds(10, 10, 110, 80);
 
-        jLabel9.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Booking");
+        bookinglab.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
+        bookinglab.setForeground(new java.awt.Color(255, 255, 255));
+        bookinglab.setText("Booking");
+        BookingCard.add(bookinglab);
+        bookinglab.setBounds(10, 110, 90, 42);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addContainerGap())
-        );
+        getContentPane().add(BookingCard);
+        BookingCard.setBounds(710, 120, 230, 160);
 
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 120, 200, 130));
+        AlertsCard.setBackground(new java.awt.Color(186, 133, 53));
+        AlertsCard.setLayout(null);
 
-        jPanel6.setBackground(new java.awt.Color(186, 133, 53));
+        txtAlerts.setBackground(new java.awt.Color(50, 116, 178));
+        txtAlerts.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
+        txtAlerts.setForeground(new java.awt.Color(255, 255, 255));
+        txtAlerts.setText("10");
+        AlertsCard.add(txtAlerts);
+        txtAlerts.setBounds(10, 0, 140, 110);
 
-        jLabel10.setBackground(new java.awt.Color(50, 116, 178));
-        jLabel10.setFont(new java.awt.Font("Dubai", 1, 48)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("10");
+        AlertsLab.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
+        AlertsLab.setForeground(new java.awt.Color(255, 255, 255));
+        AlertsLab.setText("Alerts");
+        AlertsCard.add(AlertsLab);
+        AlertsLab.setBounds(10, 110, 90, 42);
 
-        jLabel11.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Alerts");
+        getContentPane().add(AlertsCard);
+        AlertsCard.setBounds(970, 120, 230, 160);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addContainerGap())
-        );
-
-        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 120, 200, 130));
-
-        jPanel7.setBackground(new java.awt.Color(215, 111, 111));
-
-        jLabel12.setBackground(new java.awt.Color(50, 116, 178));
-        jLabel12.setFont(new java.awt.Font("Dubai", 1, 48)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("10");
+        OverdueCard.setBackground(new java.awt.Color(215, 111, 111));
+        OverdueCard.setLayout(null);
 
         jLabel13.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Overdue");
+        jLabel13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        OverdueCard.add(jLabel13);
+        jLabel13.setBounds(0, 110, 110, 42);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
-                .addContainerGap())
-        );
+        txtOverdue.setBackground(new java.awt.Color(50, 116, 178));
+        txtOverdue.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
+        txtOverdue.setForeground(new java.awt.Color(255, 255, 255));
+        txtOverdue.setText("10");
+        OverdueCard.add(txtOverdue);
+        txtOverdue.setBounds(10, 10, 160, 90);
 
-        getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 120, 200, 130));
+        getContentPane().add(OverdueCard);
+        OverdueCard.setBounds(1230, 120, 230, 160);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(null);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1770, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1080, Short.MAX_VALUE)
-        );
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vrm/ridex/querycusBG.png"))); // NOI18N
+        jLabel14.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel8.add(jLabel14);
+        jLabel14.setBounds(188, 547, 641, 201);
 
-        getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, 1770, 1080));
+        getContentPane().add(jPanel8);
+        jPanel8.setBounds(-1210, -240, 1770, 0);
 
-        setBounds(0, 0, 1934, 1087);
+        jLabel16.setFont(new java.awt.Font("Dubai", 0, 36)); // NOI18N
+        jLabel16.setText("DASHBOARD");
+        getContentPane().add(jLabel16);
+        jLabel16.setBounds(191, 61, 233, 62);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(null);
+
+        btnSearchVehicle.setBackground(new java.awt.Color(0, 0, 0));
+        btnSearchVehicle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnSearchVehicle.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearchVehicle.setText("Search");
+        btnSearchVehicle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchVehicleActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnSearchVehicle);
+        btnSearchVehicle.setBounds(260, 660, 130, 50);
+
+        makeYearDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        makeYearDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Make Year", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010" }));
+        makeYearDropdown.setBorder(null);
+        makeYearDropdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makeYearDropdownActionPerformed(evt);
+            }
+        });
+        jPanel2.add(makeYearDropdown);
+        makeYearDropdown.setBounds(450, 580, 130, 40);
+
+        modelDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        modelDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Model", "Honda Acura", "DS E-Tense", "Mini Cooper", "Chevrolet Spark", "Mistubishi Lancer" }));
+        modelDropdown.setBorder(null);
+        modelDropdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modelDropdownActionPerformed(evt);
+            }
+        });
+        jPanel2.add(modelDropdown);
+        modelDropdown.setBounds(330, 580, 100, 40);
+
+        typeDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        typeDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Type", "Sedan", "SUV", "Hatchback", "4WD", "Sport", "7 Seater" }));
+        typeDropdown.setBorder(null);
+        typeDropdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeDropdownActionPerformed(evt);
+            }
+        });
+        jPanel2.add(typeDropdown);
+        typeDropdown.setBounds(220, 580, 90, 40);
+
+        categoryDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        categoryDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Cars", "Motorbikes", "Trucks", "Lorry", "Tractor" }));
+        categoryDropdown.setBorder(null);
+        categoryDropdown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categoryDropdownActionPerformed(evt);
+            }
+        });
+        jPanel2.add(categoryDropdown);
+        categoryDropdown.setBounds(80, 580, 120, 40);
+
+        jLabel4.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
+        jLabel4.setText("Search Vehicle");
+        jPanel2.add(jLabel4);
+        jLabel4.setBounds(60, 520, 290, 53);
+
+        jLabel2.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
+        jLabel2.setText("Query Customers");
+        jPanel2.add(jLabel2);
+        jLabel2.setBounds(50, 330, 290, 53);
+
+        btnViewProfile.setBackground(new java.awt.Color(0, 0, 0));
+        btnViewProfile.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnViewProfile.setForeground(new java.awt.Color(255, 255, 255));
+        btnViewProfile.setText("View Profile");
+        btnViewProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewProfileActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnViewProfile);
+        btnViewProfile.setBounds(440, 390, 130, 50);
+
+        jTextField2.setBackground(new java.awt.Color(232, 247, 255));
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jTextField2.setForeground(new java.awt.Color(102, 102, 102));
+        jTextField2.setText("  Phone Number");
+        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.add(jTextField2);
+        jTextField2.setBounds(60, 390, 340, 50);
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vrm/ridex/querycusBG.png"))); // NOI18N
+        jPanel2.add(jLabel20);
+        jLabel20.setBounds(20, 300, 640, 182);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/vrm/ridex/searchVehiBG.png"))); // NOI18N
+        jPanel2.add(jLabel3);
+        jLabel3.setBounds(20, 470, 650, 290);
+
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(150, 0, 1390, 880);
+
+        setBounds(0, 0, 1550, 1087);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -311,6 +335,30 @@ public class Dashboard extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProfileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnViewProfileActionPerformed
+
+    private void typeDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeDropdownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeDropdownActionPerformed
+
+    private void modelDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelDropdownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_modelDropdownActionPerformed
+
+    private void makeYearDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeYearDropdownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_makeYearDropdownActionPerformed
+
+    private void btnSearchVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchVehicleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSearchVehicleActionPerformed
+
+    private void categoryDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryDropdownActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryDropdownActionPerformed
 
     /**
      * @param args the command line arguments
@@ -348,28 +396,42 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel AlertsCard;
+    private javax.swing.JLabel AlertsLab;
+    private javax.swing.JPanel BookingCard;
+    private javax.swing.JPanel NavBar;
+    private javax.swing.JPanel OnRentCard;
+    private javax.swing.JPanel OverdueCard;
+    private javax.swing.JLabel bookinglab;
+    private javax.swing.JButton btnSearchVehicle;
+    private javax.swing.JButton btnViewProfile;
+    private javax.swing.JComboBox<String> categoryDropdown;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel logo;
+    private javax.swing.JComboBox<String> makeYearDropdown;
+    private javax.swing.JComboBox<String> modelDropdown;
+    private javax.swing.JLabel txtAlerts;
+    private javax.swing.JLabel txtBooking;
+    private javax.swing.JLabel txtOnRent;
+    private javax.swing.JLabel txtOverdue;
+    private javax.swing.JLabel txtVehiclesCard;
+    private javax.swing.JComboBox<String> typeDropdown;
+    private javax.swing.JPanel vechiclesOnFleetCard;
     // End of variables declaration//GEN-END:variables
 }
