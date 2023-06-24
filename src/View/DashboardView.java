@@ -492,16 +492,6 @@ public class DashboardView extends javax.swing.JFrame {
         int rowNo = tbl_vehicleData.getSelectedRow();
         TableModel model = tbl_vehicleData.getModel();
 
-//        txt_vType.setText(model.getValueAt(rowNo, 0).toString());
-//        txt_brand.setText(model.getValueAt(rowNo, 1).toString());
-//        txt_vmodel.setText(model.getValueAt(rowNo, 2).toString());
-//        txt_vno.setText(model.getValueAt(rowNo, 3).toString());
-//        txt_fuel.setText(model.getValueAt(rowNo, 4).toString());
-//        txt_rate.setText(model.getValueAt(rowNo, 5).toString());
-//        txt_color.setText(model.getValueAt(rowNo, 6).toString());
-//        txt_speed.setText(model.getValueAt(rowNo, 7).toString());
-
-        //        txt_vmodel.setText(model.getValueAt(rowNo, 5).toString());
     }//GEN-LAST:event_tbl_vehicleDataMouseClicked
 
     /**

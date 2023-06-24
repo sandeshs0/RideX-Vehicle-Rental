@@ -226,23 +226,7 @@ public class loginView extends javax.swing.JFrame {
     private void txtpasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtpasswordActionPerformed
-//boolean validation(){
-//    String uname= txtusername.getText();
-//    String pass=txtpassword.getText();
-//    if(uname.equals("")){
-//        JOptionPane.showMessageDialog(null,"Enter username");
-//        return false;
-//    }
-//    if(pass.equals("")){
-//        JOptionPane.showMessageDialog(null,"Enter password");
-//        return false;
-//    }
-//    else{
-//        return true;
-//        
-//    }
-//    
-//}
+
     
     private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
         // TODO add your handling code here:
