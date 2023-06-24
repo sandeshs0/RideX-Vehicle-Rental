@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import View.BookingSlipView;
 /**
  * 
  * @author hello
@@ -79,7 +81,6 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehicleData = new javax.swing.JTable();
-        btnSearchVehicle = new javax.swing.JButton();
         bk_vehicleNo = new javax.swing.JTextField();
         bk_Model = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -116,6 +117,8 @@ public class BookingsView extends javax.swing.JFrame {
         sum_surcharge = new javax.swing.JLabel();
         sum_total = new javax.swing.JLabel();
         sum_tax = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        sum_customer = new javax.swing.JLabel();
         btn_Book = new javax.swing.JButton();
         Outline = new javax.swing.JLabel();
         summarybg = new javax.swing.JLabel();
@@ -233,18 +236,6 @@ public class BookingsView extends javax.swing.JFrame {
         jPanel2.add(jScrollPane1);
         jScrollPane1.setBounds(800, 140, 452, 220);
 
-        btnSearchVehicle.setBackground(new java.awt.Color(0, 0, 0));
-        btnSearchVehicle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        btnSearchVehicle.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearchVehicle.setText("Select");
-        btnSearchVehicle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchVehicleActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnSearchVehicle);
-        btnSearchVehicle.setBounds(290, 730, 130, 50);
-
         bk_vehicleNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_vehicleNo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         bk_vehicleNo.addActionListener(new java.awt.event.ActionListener() {
@@ -352,7 +343,7 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(0, 39, 76));
         jLabel14.setText("Phone Number");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(100, 660, 180, 40);
+        jLabel14.setBounds(100, 650, 180, 40);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 39, 76));
@@ -368,7 +359,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         jPanel2.add(bk_PhoneNo);
-        bk_PhoneNo.setBounds(300, 660, 250, 40);
+        bk_PhoneNo.setBounds(300, 650, 250, 40);
 
         bk_Surcharge.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_Surcharge.setText("0");
@@ -401,7 +392,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btn_calculate);
-        btn_calculate.setBounds(270, 490, 150, 40);
+        btn_calculate.setBounds(260, 730, 150, 40);
 
         bg_booking.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/searchVehiBG.png"))); // NOI18N
         jPanel2.add(bg_booking);
@@ -430,55 +421,55 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel21.setForeground(new java.awt.Color(255, 250, 246));
         jLabel21.setText("Vehicle No");
         jPanel2.add(jLabel21);
-        jLabel21.setBounds(810, 490, 140, 30);
+        jLabel21.setBounds(820, 480, 140, 30);
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 250, 246));
         jLabel22.setText("Rate");
         jPanel2.add(jLabel22);
-        jLabel22.setBounds(810, 520, 140, 30);
+        jLabel22.setBounds(820, 510, 140, 30);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 250, 246));
         jLabel23.setText("Days Rented");
         jPanel2.add(jLabel23);
-        jLabel23.setBounds(810, 550, 140, 30);
+        jLabel23.setBounds(820, 540, 140, 30);
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 250, 246));
         jLabel24.setText("Surcharge");
         jPanel2.add(jLabel24);
-        jLabel24.setBounds(810, 580, 140, 30);
+        jLabel24.setBounds(820, 570, 140, 30);
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 250, 246));
         jLabel25.setText("Tax");
         jPanel2.add(jLabel25);
-        jLabel25.setBounds(810, 610, 140, 30);
+        jLabel25.setBounds(820, 600, 140, 30);
 
         sum_vehicleNo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_vehicleNo.setForeground(new java.awt.Color(255, 250, 246));
         sum_vehicleNo.setText("-");
         jPanel2.add(sum_vehicleNo);
-        sum_vehicleNo.setBounds(1080, 490, 140, 30);
+        sum_vehicleNo.setBounds(1050, 480, 210, 30);
 
         sum_Rate.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_Rate.setForeground(new java.awt.Color(255, 250, 246));
         sum_Rate.setText("-");
         jPanel2.add(sum_Rate);
-        sum_Rate.setBounds(1080, 520, 140, 30);
+        sum_Rate.setBounds(1050, 510, 160, 30);
 
         sum_days.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_days.setForeground(new java.awt.Color(255, 250, 246));
         sum_days.setText("-");
         jPanel2.add(sum_days);
-        sum_days.setBounds(1080, 550, 140, 30);
+        sum_days.setBounds(1050, 540, 160, 30);
 
         sum_surcharge.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_surcharge.setForeground(new java.awt.Color(255, 250, 246));
         sum_surcharge.setText("-");
         jPanel2.add(sum_surcharge);
-        sum_surcharge.setBounds(1080, 580, 140, 30);
+        sum_surcharge.setBounds(1050, 570, 160, 30);
 
         sum_total.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_total.setForeground(new java.awt.Color(255, 250, 246));
@@ -490,7 +481,19 @@ public class BookingsView extends javax.swing.JFrame {
         sum_tax.setForeground(new java.awt.Color(255, 250, 246));
         sum_tax.setText("-");
         jPanel2.add(sum_tax);
-        sum_tax.setBounds(1080, 610, 140, 30);
+        sum_tax.setBounds(1050, 600, 160, 30);
+
+        jLabel26.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(255, 250, 246));
+        jLabel26.setText("Customer");
+        jPanel2.add(jLabel26);
+        jLabel26.setBounds(820, 630, 140, 30);
+
+        sum_customer.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        sum_customer.setForeground(new java.awt.Color(255, 250, 246));
+        sum_customer.setText("-");
+        jPanel2.add(sum_customer);
+        sum_customer.setBounds(1050, 630, 210, 30);
 
         btn_Book.setBackground(new java.awt.Color(154, 57, 23));
         btn_Book.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -524,10 +527,11 @@ public class BookingsView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
             .addComponent(NavBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -552,11 +556,7 @@ public class BookingsView extends javax.swing.JFrame {
     private void navbtn_BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BookingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_BookingActionPerformed
-
-    private void btnSearchVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchVehicleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchVehicleActionPerformed
- public void calculateBooking(String vehicleNo, String Brand,String Model,int Rate,int Days,String SpecialReq,int Surcharge){
+ public void calculateBooking(String vehicleNo, String Brand,String Model,int Rate,int Days,String SpecialReq,int Surcharge,String customerName){
      int subAmt=Rate*Days;
      int Amt=subAmt + Surcharge;
      double Tax=0.13*Amt;
@@ -568,7 +568,59 @@ public class BookingsView extends javax.swing.JFrame {
      sum_surcharge.setText(String.valueOf(Surcharge));
      sum_tax.setText(String.valueOf(Tax));
      sum_total.setText(String.valueOf(Total));
+     sum_customer.setText(String.valueOf(customerName));
+     
+     
+//     BookSlipGenerate(vehicleNo,Brand,Model,SpecialReq,"6/24/2023","6/29/2023",customerName,"9869118472",Total);
  }
+
+private String checkCustomerRecord() {
+    String phoneNumber = bk_PhoneNo.getText();
+    String fullName = null; // Initialize fullName as null
+    
+    // Validate phone number length
+    if (phoneNumber.length() != 10) {
+        JOptionPane.showMessageDialog(this, "Invalid phone number. Please enter a 10-digit phone number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        return fullName; // Return null if validation fails
+    }
+    
+    try {
+        Connection conn = dbConnection.dbconnect();
+        
+        String sql = "SELECT full_name, phone_number, email, address FROM customer WHERE phone_number = ?";
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, phoneNumber);
+        
+        ResultSet rs = pstmt.executeQuery();
+        
+        if (rs.next()) {
+            fullName = rs.getString("full_name");
+            String phone = rs.getString("phone_number");
+            String email = rs.getString("email");
+            String address = rs.getString("address");
+            
+            // Perform desired actions with the retrieved values
+//            System.out.println("Full Name: " + fullName);
+//            System.out.println("Phone Number: " + phone);
+//            System.out.println("Email: " + email);
+//            System.out.println("Address: " + address);
+        } else {
+            JOptionPane.showMessageDialog(this, "No customer record found for the entered phone number", "Customer Record Not Found", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        rs.close();
+        pstmt.close();
+        conn.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "An error occurred while checking customer record: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    return fullName; // Return the fullName value (null if validation fails)
+}
+
+
+
     public void search(String str){
         model = (DefaultTableModel)tbl_vehicleData.getModel();
         TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
@@ -631,8 +683,13 @@ public class BookingsView extends javax.swing.JFrame {
 
     private void btn_BookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookActionPerformed
         // TODO add your handling code here:
+       new BookingSlipView().setVisible(true);
+        
     }//GEN-LAST:event_btn_BookActionPerformed
 
+ public boolean ok(){
+            return true;
+            }
     private void btn_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calculateActionPerformed
         // TODO add your handling code here:
 //        String Vno=bk_vehicleNo.getText();
@@ -659,12 +716,24 @@ String Vno = bk_vehicleNo.getText();
         JOptionPane.showMessageDialog(this, "Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
     } else {
         // All fields are filled, proceed with calculation
+        checkCustomerRecord();
         int rate = Integer.parseInt(rateStr);
         int days = Integer.parseInt(daysStr);
         int surcharge = Integer.parseInt(surchargeStr);
+        String cusName= checkCustomerRecord();
+        System.out.println(cusName);
+        if(cusName!=null){
+        calculateBooking(Vno, brand, model, rate, days, specialReq, surcharge,cusName);
+        }
+        else{
+             
+
+        }
         
-        calculateBooking(Vno, brand, model, rate, days, specialReq, surcharge);
+        
+      
     }
+    
     }//GEN-LAST:event_btn_calculateActionPerformed
 
     private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
@@ -718,7 +787,6 @@ String Vno = bk_vehicleNo.getText();
     private javax.swing.JTextField bk_SpecialReq;
     private javax.swing.JTextField bk_Surcharge;
     private javax.swing.JTextField bk_vehicleNo;
-    private javax.swing.JButton btnSearchVehicle;
     private javax.swing.JButton btn_Book;
     private javax.swing.JButton btn_calculate;
     private javax.swing.JLabel jLabel1;
@@ -738,6 +806,7 @@ String Vno = bk_vehicleNo.getText();
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -752,6 +821,7 @@ String Vno = bk_vehicleNo.getText();
     private javax.swing.JButton navbtn_Dashboard;
     private javax.swing.JButton navbtn_Vehicles;
     private javax.swing.JLabel sum_Rate;
+    private javax.swing.JLabel sum_customer;
     private javax.swing.JLabel sum_days;
     private javax.swing.JLabel sum_surcharge;
     private javax.swing.JLabel sum_tax;
