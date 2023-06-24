@@ -8,6 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import DAO.dbConnection;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author Sandesh
@@ -17,10 +22,49 @@ public class DashboardView extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
+        DefaultTableModel model;
+
     public DashboardView() {
         initComponents();
         updateVehicleCards();
+        setRecordsToTable();
     }
+    
+    public void setRecordsToTable(){
+        try{
+            Connection con = dbConnection.dbconnect();
+            PreparedStatement pst = con.prepareStatement("select * from vehicle");
+            ResultSet rs = pst.executeQuery();
+            
+            while(rs.next()){
+                
+                String vehiclebrand = rs.getString("brand");
+                String vehiclemodel = rs.getString("model");
+                
+                String fuel = rs.getString("fuel");
+                String rate = rs.getString("rate");
+           
+
+                
+                
+                Object[] obj = {vehiclebrand,vehiclemodel,fuel,rate};
+                model = (DefaultTableModel)tbl_vehicleData.getModel();
+                model.addRow(obj);
+            }
+        
+        
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+ public void search(String str){
+        model = (DefaultTableModel)tbl_vehicleData.getModel();
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
+        tbl_vehicleData.setRowSorter(trs);
+       trs.setRowFilter(RowFilter.regexFilter(str));
+    }
+ 
     public void updateVehicleCards(){
         try {
             // Get the database connection
@@ -89,22 +133,19 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
-        btnSearchVehicle = new javax.swing.JButton();
-        makeYearDropdown = new javax.swing.JComboBox<>();
-        modelDropdown = new javax.swing.JComboBox<>();
-        typeDropdown = new javax.swing.JComboBox<>();
-        categoryDropdown = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbl_vehicleData = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        txt_search = new javax.swing.JTextField();
         btnViewProfile = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jScrollBar1 = new javax.swing.JScrollBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 0, 51));
@@ -304,113 +345,51 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(null);
 
-        jTable1.setBackground(new java.awt.Color(232, 247, 255));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "SN", "Model", "Make Year", "Rate per day"
-            }
-        ));
-        jTable1.setRowHeight(30);
-        jTable1.setShowGrid(true);
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(790, 360, 462, 410);
-
         jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
         jLabel8.setText("Rate List");
         jPanel2.add(jLabel8);
-        jLabel8.setBounds(930, 320, 200, 53);
+        jLabel8.setBounds(950, 310, 200, 53);
 
-        btnSearchVehicle.setBackground(new java.awt.Color(0, 0, 0));
-        btnSearchVehicle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnSearchVehicle.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearchVehicle.setText("Search");
-        btnSearchVehicle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchVehicleActionPerformed(evt);
+        tbl_vehicleData.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 204, 255)));
+        tbl_vehicleData.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        tbl_vehicleData.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Brand", "Model", "Fuel", "Rate"
+            }
+        ));
+        tbl_vehicleData.setRowHeight(40);
+        tbl_vehicleData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_vehicleDataMouseClicked(evt);
             }
         });
-        jPanel2.add(btnSearchVehicle);
-        btnSearchVehicle.setBounds(260, 660, 130, 50);
+        jScrollPane2.setViewportView(tbl_vehicleData);
 
-        makeYearDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        makeYearDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Make Year", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010" }));
-        makeYearDropdown.setBorder(null);
-        makeYearDropdown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                makeYearDropdownActionPerformed(evt);
-            }
-        });
-        jPanel2.add(makeYearDropdown);
-        makeYearDropdown.setBounds(450, 580, 130, 40);
-
-        modelDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        modelDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Model", "Honda Acura", "DS E-Tense", "Mini Cooper", "Chevrolet Spark", "Mistubishi Lancer" }));
-        modelDropdown.setBorder(null);
-        modelDropdown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modelDropdownActionPerformed(evt);
-            }
-        });
-        jPanel2.add(modelDropdown);
-        modelDropdown.setBounds(330, 580, 100, 40);
-
-        typeDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        typeDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Type", "Sedan", "SUV", "Hatchback", "4WD", "Sport", "7 Seater" }));
-        typeDropdown.setBorder(null);
-        typeDropdown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                typeDropdownActionPerformed(evt);
-            }
-        });
-        jPanel2.add(typeDropdown);
-        typeDropdown.setBounds(220, 580, 90, 40);
-
-        categoryDropdown.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        categoryDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Cars", "Motorbikes", "Trucks", "Lorry", "Tractor" }));
-        categoryDropdown.setBorder(null);
-        categoryDropdown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryDropdownActionPerformed(evt);
-            }
-        });
-        jPanel2.add(categoryDropdown);
-        categoryDropdown.setBounds(80, 580, 120, 40);
+        jPanel2.add(jScrollPane2);
+        jScrollPane2.setBounds(750, 360, 560, 200);
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
         jLabel4.setText("Search Vehicle");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(60, 520, 290, 53);
+        jLabel4.setBounds(50, 570, 290, 53);
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
         jLabel2.setText("Query Customers");
         jPanel2.add(jLabel2);
         jLabel2.setBounds(50, 330, 290, 53);
+
+        txt_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_search.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_searchKeyReleased(evt);
+            }
+        });
+        jPanel2.add(txt_search);
+        txt_search.setBounds(130, 620, 390, 50);
 
         btnViewProfile.setBackground(new java.awt.Color(0, 0, 0));
         btnViewProfile.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -436,9 +415,9 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel2.add(jLabel20);
         jLabel20.setBounds(20, 300, 640, 190);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/searchVehiBG.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/smallbg.png"))); // NOI18N
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(20, 470, 650, 290);
+        jLabel3.setBounds(20, 490, 650, 290);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ratelistBG.png"))); // NOI18N
         jPanel2.add(jLabel6);
@@ -456,6 +435,8 @@ public class DashboardView extends javax.swing.JFrame {
         });
         jPanel2.add(jButton1);
         jButton1.setBounds(300, 20, 70, 38);
+        jPanel2.add(jScrollBar1);
+        jScrollBar1.setBounds(1290, 420, 10, 48);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(150, 0, 1390, 880);
@@ -474,26 +455,6 @@ public class DashboardView extends javax.swing.JFrame {
     private void btnViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProfileActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnViewProfileActionPerformed
-
-    private void typeDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeDropdownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_typeDropdownActionPerformed
-
-    private void modelDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelDropdownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modelDropdownActionPerformed
-
-    private void makeYearDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeYearDropdownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_makeYearDropdownActionPerformed
-
-    private void btnSearchVehicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchVehicleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearchVehicleActionPerformed
-
-    private void categoryDropdownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryDropdownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_categoryDropdownActionPerformed
 
     private void navbtn_BillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BillingActionPerformed
         // TODO add your handling code here:
@@ -520,6 +481,28 @@ public class DashboardView extends javax.swing.JFrame {
     private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_CustomersActionPerformed
+
+    private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
+        String searchString = txt_search.getText();
+        search(searchString);        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_searchKeyReleased
+
+    private void tbl_vehicleDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_vehicleDataMouseClicked
+
+        int rowNo = tbl_vehicleData.getSelectedRow();
+        TableModel model = tbl_vehicleData.getModel();
+
+//        txt_vType.setText(model.getValueAt(rowNo, 0).toString());
+//        txt_brand.setText(model.getValueAt(rowNo, 1).toString());
+//        txt_vmodel.setText(model.getValueAt(rowNo, 2).toString());
+//        txt_vno.setText(model.getValueAt(rowNo, 3).toString());
+//        txt_fuel.setText(model.getValueAt(rowNo, 4).toString());
+//        txt_rate.setText(model.getValueAt(rowNo, 5).toString());
+//        txt_color.setText(model.getValueAt(rowNo, 6).toString());
+//        txt_speed.setText(model.getValueAt(rowNo, 7).toString());
+
+        //        txt_vmodel.setText(model.getValueAt(rowNo, 5).toString());
+    }//GEN-LAST:event_tbl_vehicleDataMouseClicked
 
     /**
      * @param args the command line arguments
@@ -565,9 +548,7 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel OnRentCard;
     private javax.swing.JPanel OverdueCard;
     private javax.swing.JLabel bookinglab;
-    private javax.swing.JButton btnSearchVehicle;
     private javax.swing.JButton btnViewProfile;
-    private javax.swing.JComboBox<String> categoryDropdown;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
@@ -583,23 +564,22 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JComboBox<String> makeYearDropdown;
-    private javax.swing.JComboBox<String> modelDropdown;
     private javax.swing.JButton navbtn_Billing;
     private javax.swing.JButton navbtn_Booking;
     private javax.swing.JButton navbtn_Customers;
     private javax.swing.JButton navbtn_Dashboard;
     private javax.swing.JButton navbtn_Vehicles;
+    private javax.swing.JTable tbl_vehicleData;
     private javax.swing.JLabel txtAlerts;
     private javax.swing.JLabel txtBooking;
     private javax.swing.JLabel txtOnRent;
     private javax.swing.JLabel txtOverdue;
     private javax.swing.JLabel txtVehiclesCard;
-    private javax.swing.JComboBox<String> typeDropdown;
+    private javax.swing.JTextField txt_search;
     private javax.swing.JPanel vechiclesOnFleetCard;
     // End of variables declaration//GEN-END:variables
 }
