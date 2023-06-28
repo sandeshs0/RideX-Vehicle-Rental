@@ -435,6 +435,11 @@ public void clearTable(){
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         txt_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_searchActionPerformed(evt);
+            }
+        });
         txt_search.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_searchKeyReleased(evt);
@@ -660,7 +665,7 @@ public void clearTable(){
 
     private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
         String searchString = txt_search.getText();
-        search(searchString);        // TODO add your handling code here:
+        search(searchString);   
     }//GEN-LAST:event_txt_searchKeyReleased
 
     private void txt_vTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_vTypeActionPerformed
@@ -725,6 +730,10 @@ public void clearTable(){
         // TODO add your handling code here:
 
     }//GEN-LAST:event_navbtn_BillingActionPerformed
+
+    private void txt_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_searchActionPerformed
 
     /**
      * @param args the command line arguments

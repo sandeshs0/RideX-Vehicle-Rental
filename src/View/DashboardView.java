@@ -12,6 +12,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import Controller.SignupController;
 
 /**
  *
@@ -23,46 +24,54 @@ public class DashboardView extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
         DefaultTableModel model;
+       
+         
 
     public DashboardView() {
         initComponents();
         updateVehicleCards();
-        setRecordsToTable();
-    }
-    
-    public void setRecordsToTable(){
-        try{
-            Connection con = dbConnection.dbconnect();
-            PreparedStatement pst = con.prepareStatement("select * from vehicle");
-            ResultSet rs = pst.executeQuery();
-            
-            while(rs.next()){
-                
-                String vehiclebrand = rs.getString("brand");
-                String vehiclemodel = rs.getString("model");
-                
-                String fuel = rs.getString("fuel");
-                String rate = rs.getString("rate");
-           
-
-                
-                
-                Object[] obj = {vehiclebrand,vehiclemodel,fuel,rate};
-                model = (DefaultTableModel)tbl_vehicleData.getModel();
-                model.addRow(obj);
-            }
         
         
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+//        x.getClass() 
+//        setRecordsToTable();
+        System.out.println(tbl_vehicleData.getClass());
+        
     }
     
+//    public void setRecordsToTable(){
+//        try{
+//            Connection con = dbConnection.dbconnect();
+//            PreparedStatement pst = con.prepareStatement("select * from vehicle");
+//            ResultSet rs = pst.executeQuery();
+//            
+//            while(rs.next()){
+//                
+//                String vehiclebrand = rs.getString("brand");
+//                String vehiclemodel = rs.getString("model");
+//                
+//                String fuel = rs.getString("fuel");
+//                String rate = rs.getString("rate");
+//           
+//
+//                
+//                
+//                Object[] obj = {vehiclebrand,vehiclemodel,fuel,rate};
+//                model = (DefaultTableModel)tbl_vehicleData.getModel();
+//                model.addRow(obj);
+//            }
+//        
+//        
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//    
  public void search(String str){
         model = (DefaultTableModel)tbl_vehicleData.getModel();
         TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
         tbl_vehicleData.setRowSorter(trs);
        trs.setRowFilter(RowFilter.regexFilter(str));
+       
     }
  
     public void updateVehicleCards(){
@@ -107,7 +116,6 @@ public class DashboardView extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
         vechiclesOnFleetCard = new javax.swing.JPanel();
         txtVehiclesCard = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -144,7 +152,6 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jScrollBar1 = new javax.swing.JScrollBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -155,16 +162,6 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel1.setLayout(null);
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 0, 0);
-
-        jTextField1.setBackground(new java.awt.Color(232, 247, 255));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(191, 17, 250, 38);
 
         vechiclesOnFleetCard.setBackground(new java.awt.Color(16, 3, 35));
         vechiclesOnFleetCard.setLayout(null);
@@ -369,7 +366,7 @@ public class DashboardView extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tbl_vehicleData);
 
         jPanel2.add(jScrollPane2);
-        jScrollPane2.setBounds(750, 360, 560, 200);
+        jScrollPane2.setBounds(750, 360, 560, 380);
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
         jLabel4.setText("Search Vehicle");
@@ -422,19 +419,6 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ratelistBG.png"))); // NOI18N
         jPanel2.add(jLabel6);
         jLabel6.setBounds(710, 280, 650, 530);
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/searchbtn.png"))); // NOI18N
-        jButton1.setText("  ");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton1);
-        jButton1.setBounds(300, 20, 70, 38);
         jPanel2.add(jScrollBar1);
         jScrollBar1.setBounds(1290, 420, 10, 48);
 
@@ -443,14 +427,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         setBounds(0, 0, 1550, 1087);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProfileActionPerformed
         // TODO add your handling code here:
@@ -539,7 +515,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel OverdueCard;
     private javax.swing.JLabel bookinglab;
     private javax.swing.JButton btnViewProfile;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -556,7 +531,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JButton navbtn_Billing;
     private javax.swing.JButton navbtn_Booking;
