@@ -341,11 +341,6 @@ public class Signupview extends javax.swing.JFrame {
 
     private void txtfirstnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfirstnameActionPerformed
 
-
-
-
-
-
         // TODO add your handling code here:
     }//GEN-LAST:event_txtfirstnameActionPerformed
 

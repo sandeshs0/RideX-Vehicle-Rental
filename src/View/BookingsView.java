@@ -11,6 +11,14 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import View.BookingSlipView;
+import Model.BookingSlipModel; 
+import com.toedter.calendar.JCalendar;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 /**
  * 
  * @author hello
@@ -76,6 +84,7 @@ public class BookingsView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         txt_search = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        bk_date = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehicleData = new javax.swing.JTable();
         bk_vehicleNo = new javax.swing.JTextField();
@@ -92,6 +101,7 @@ public class BookingsView extends javax.swing.JFrame {
         bk_Rate = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         bk_PhoneNo = new javax.swing.JTextField();
         bk_Surcharge = new javax.swing.JTextField();
@@ -214,6 +224,8 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel8.setText("Available Vehicles");
         jPanel2.add(jLabel8);
         jLabel8.setBounds(880, 100, 300, 53);
+        jPanel2.add(bk_date);
+        bk_date.setBounds(350, 500, 200, 30);
 
         tbl_vehicleData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -341,6 +353,12 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel14.setText("Phone Number");
         jPanel2.add(jLabel14);
         jLabel14.setBounds(100, 650, 180, 40);
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 39, 76));
+        jLabel20.setText("Pickup Date");
+        jPanel2.add(jLabel20);
+        jLabel20.setBounds(130, 500, 180, 29);
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 39, 76));
@@ -553,11 +571,12 @@ public class BookingsView extends javax.swing.JFrame {
     private void navbtn_BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BookingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_BookingActionPerformed
- public void calculateBooking(String vehicleNo, String Brand,String Model,int Rate,int Days,String SpecialReq,int Surcharge,String customerName){
+ public String[] calculateBooking(String vehicleNo, String Brand,String Model,int Rate,int Days,String SpecialReq,int Surcharge,String customerName,String customerPhone,String bookingDate,String returnDate){
      int subAmt=Rate*Days;
      int Amt=subAmt + Surcharge;
      double Tax=0.13*Amt;
      double Total=Amt+Tax;
+     String[] sendData=new String[9];
      
      sum_vehicleNo.setText(vehicleNo);
      sum_Rate.setText(String.valueOf(Rate));
@@ -566,24 +585,33 @@ public class BookingsView extends javax.swing.JFrame {
      sum_tax.setText(String.valueOf(Tax));
      sum_total.setText(String.valueOf(Total));
      sum_customer.setText(String.valueOf(customerName));
-     
-     
-//     BookSlipGenerate(vehicleNo,Brand,Model,SpecialReq,"6/24/2023","6/29/2023",customerName,"9869118472",Total);
+     System.out.println("Booking Date:"+bookingDate);
+     System.out.println("Return Date:"+returnDate);
+     sendData[0]=vehicleNo;
+     sendData[1]=Brand;
+     sendData[2]=Model;
+     sendData[3]=SpecialReq;
+     sendData[4]=bookingDate;
+     sendData[5]=returnDate;
+     sendData[6]=customerName;
+     sendData[7]=customerPhone;
+     sendData[8]=String.valueOf(Total);
+     System.out.println(Arrays.toString(sendData));
+     return sendData;
  }
-
-private String checkCustomerRecord() {
+private String[] checkCustomerRecord() {
     String phoneNumber = bk_PhoneNo.getText();
+    String[] cusDetails = new String[2];
     String fullName = null; // Initialize fullName as null
     
     // Validate phone number length
     if (phoneNumber.length() != 10) {
         JOptionPane.showMessageDialog(this, "Invalid phone number. Please enter a 10-digit phone number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-        return fullName; // Return null if validation fails
+        return null; // Return null if validation fails
     }
     
     try {
         Connection conn = dbConnection.dbconnect();
-        
         String sql = "SELECT full_name, phone_number, email, address FROM customer WHERE phone_number = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, phoneNumber);
@@ -595,6 +623,9 @@ private String checkCustomerRecord() {
             String phone = rs.getString("phone_number");
             String email = rs.getString("email");
             String address = rs.getString("address");
+           
+            cusDetails[0]=phone;
+            cusDetails[1]=fullName;
             
             // Perform desired actions with the retrieved values
 //            System.out.println("Full Name: " + fullName);
@@ -613,9 +644,8 @@ private String checkCustomerRecord() {
         JOptionPane.showMessageDialog(this, "An error occurred while checking customer record: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
     
-    return fullName; // Return the fullName value (null if validation fails)
+    return cusDetails;// Return the fullName value (null if validation fails)
 }
-
 
 
     public void search(String str){
@@ -679,25 +709,73 @@ private String checkCustomerRecord() {
     }//GEN-LAST:event_bk_SurchargeActionPerformed
 
     private void btn_BookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookActionPerformed
-        // TODO add your handling code here:
-       new BookingSlipView().setVisible(true);
-        
-    }//GEN-LAST:event_btn_BookActionPerformed
+//String[] bookData=new String[8];
+BookVehicle();
 
- public boolean ok(){
-            return true;
-            }
+    }//GEN-LAST:event_btn_BookActionPerformed
+private void BookVehicle(){
+    Date selectedDate = bk_date.getDate(); // Get the selected date as a Date object
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    String Vno = bk_vehicleNo.getText();
+    String brand = bk_Brand.getText();
+    String model = bk_Model.getText();
+    String rateStr = bk_Rate.getText();
+    String daysStr = bk_Days.getText();
+    String specialReq = bk_SpecialReq.getText();
+    String surchargeStr = bk_Surcharge.getText();
+    String bookingDate = dateFormat.format(selectedDate);
+    
+//Calulating the return Date:
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate parsedDate = LocalDate.parse(bookingDate, dateFormatter);
+    int numberOfDaysToAdd= Integer.parseInt(daysStr);
+    LocalDate retDate = parsedDate.plusDays(numberOfDaysToAdd); 
+    String returnDate = retDate.format(dateFormatter);     
+// Check if any field is empty
+    if (Vno.isEmpty() || brand.isEmpty() || model.isEmpty() || rateStr.isEmpty() || daysStr.isEmpty() || specialReq.isEmpty() || surchargeStr.isEmpty()) {
+        // Display an error message or perform other necessary action
+        JOptionPane.showMessageDialog(this, "Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
+    } else {
+        // All fields are filled, proceed with calculation
+        checkCustomerRecord();
+        int rate = Integer.parseInt(rateStr);
+        int days = Integer.parseInt(daysStr);
+        int surcharge = Integer.parseInt(surchargeStr);
+        String[] cusName= checkCustomerRecord();
+        System.out.println(cusName[1]);
+        if(cusName!=null){
+        String[] bookingData=calculateBooking(Vno, brand, model, rate, days, specialReq, surcharge,cusName[1],cusName[0],bookingDate,returnDate);
+        // Store the bookingData in the NewForm instance
+            String vehicleNo = bookingData[0];
+            String rateValue = bookingData[1];
+            String daysValue = bookingData[2];
+            String surchargeValue = bookingData[3];
+            String taxValue = bookingData[4];
+            String totalValue = bookingData[5];
+            String customerName = bookingData[6];
+            String customerPhone=bookingData[7];
+            String total=bookingData[8];
+        newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total);
+        BookingSlipView bsv1=new BookingSlipView();
+        bsv1.setBookingSlipViewModel(newForm);
+        bsv1.show();
+        
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Something Went Wrong");
+        }
+    }
+
+}
+    
+private BookingSlipModel newForm;
+
     private void btn_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calculateActionPerformed
-        // TODO add your handling code here:
-//        String Vno=bk_vehicleNo.getText();
-//        String brand=bk_Brand.getText();
-//        String model=bk_Model.getText();
-//        int rate=Integer.parseInt(bk_Rate.getText());
-//        int days=Integer.parseInt(bk_Days.getText());
-//        String specialReq=bk_SpecialReq.getText();
-//        int surcharge=Integer.parseInt(bk_Surcharge.getText());
-//        
-//        
+
+Date selectedDate = bk_date.getDate(); // Get the selected date as a Date object
+SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//  
 //        calculateBooking(Vno,brand,model,rate,days,specialReq,surcharge);
 String Vno = bk_vehicleNo.getText();
     String brand = bk_Brand.getText();
@@ -706,7 +784,17 @@ String Vno = bk_vehicleNo.getText();
     String daysStr = bk_Days.getText();
     String specialReq = bk_SpecialReq.getText();
     String surchargeStr = bk_Surcharge.getText();
+    String bookingDate = dateFormat.format(selectedDate);
     
+//        System.out.println(bookingDate);
+//Calulating the return Date:
+DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+LocalDate parsedDate = LocalDate.parse(bookingDate, dateFormatter);
+ int numberOfDaysToAdd= Integer.parseInt(daysStr);
+LocalDate retDate = parsedDate.plusDays(numberOfDaysToAdd);
+String returnDate = retDate.format(dateFormatter);
+        System.out.println();
+        
     // Check if any field is empty
     if (Vno.isEmpty() || brand.isEmpty() || model.isEmpty() || rateStr.isEmpty() || daysStr.isEmpty() || specialReq.isEmpty() || surchargeStr.isEmpty()) {
         // Display an error message or perform other necessary action
@@ -717,20 +805,25 @@ String Vno = bk_vehicleNo.getText();
         int rate = Integer.parseInt(rateStr);
         int days = Integer.parseInt(daysStr);
         int surcharge = Integer.parseInt(surchargeStr);
-        String cusName= checkCustomerRecord();
-        System.out.println(cusName);
+        String[] cusName= checkCustomerRecord();
+        System.out.println(cusName[1]);
         if(cusName!=null){
-        calculateBooking(Vno, brand, model, rate, days, specialReq, surcharge,cusName);
+        String[] bookingData=calculateBooking(Vno, brand, model, rate, days, specialReq, surcharge,cusName[1],cusName[0],bookingDate,returnDate);
+        // Store the bookingData in the NewForm instance
+            String vehicleNo = bookingData[0];
+            String rateValue = bookingData[1];
+            String daysValue = bookingData[2];
+            String surchargeValue = bookingData[3];
+            String taxValue = bookingData[4];
+            String totalValue = bookingData[5];
+            String customerName = bookingData[6];
+            String customerPhone=bookingData[7];
+            String total=bookingData[8];        
         }
         else{
-             
-
+            JOptionPane.showMessageDialog(this, "Something Went Wrong");
         }
-        
-        
-      
     }
-    
     }//GEN-LAST:event_btn_calculateActionPerformed
 
     private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
@@ -783,6 +876,7 @@ String Vno = bk_vehicleNo.getText();
     private javax.swing.JTextField bk_Rate;
     private javax.swing.JTextField bk_SpecialReq;
     private javax.swing.JTextField bk_Surcharge;
+    private com.toedter.calendar.JDateChooser bk_date;
     private javax.swing.JTextField bk_vehicleNo;
     private javax.swing.JButton btn_Book;
     private javax.swing.JButton btn_calculate;
@@ -798,6 +892,7 @@ String Vno = bk_vehicleNo.getText();
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;

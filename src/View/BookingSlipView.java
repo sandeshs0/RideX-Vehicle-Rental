@@ -3,14 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+import Model.BookingSlipModel;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 
-
+import javax.swing.JPanel;
 /**
  *
  * @author hello
  */
 public class BookingSlipView extends javax.swing.JFrame {
-
+    private BookingSlipModel bsv1;
     /**
      * Creates new form BookingSlipView
      */
@@ -18,7 +26,27 @@ public class BookingSlipView extends javax.swing.JFrame {
         initComponents();
     }
     
-public void setFields(String Vno,String Brand,String Model,String SpecialReq,String BorrowDate,String ReturnDate,String CusName,String CusPhone,double Total){
+    public void setBookingSlipViewModel(BookingSlipModel bsv1){
+        this.bsv1=bsv1;
+        updateLabels();
+    }
+   
+    private void updateLabels(){
+        String vehicleNo=bsv1.getVechicleNumber();
+        String brand=bsv1.getBrand();
+        String model=bsv1.getModel();
+        String specialReq=bsv1.getSpecial_request();
+        String borrowDate=bsv1.getBorrow_date();
+        String returnDate=bsv1.getReturn_date();
+        String cusName=bsv1.getCustomer_name();
+        String cusPhone=bsv1.getCustomer_number();
+        String tot=bsv1.getTotal();
+        
+//        setting the fields:
+setFields(vehicleNo,brand,model,specialReq,borrowDate,returnDate,cusName,cusPhone,tot);
+    }
+    
+public void setFields(String Vno,String Brand,String Model,String SpecialReq,String BorrowDate,String ReturnDate,String CusName,String CusPhone,String Total){
     slip_vehicleNo1.setText(Vno);
     slip_brand.setText(Brand);
     slip_model.setText(Model);
@@ -29,6 +57,56 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
     slip_cusPhone1.setText(CusPhone);
     slip_Total.setText(String.valueOf(Total));
 }
+ public void printSlip() {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(new Printable() {
+            @Override
+            public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+                if (pageIndex > 0) {
+                    return NO_SUCH_PAGE;
+                }
+
+                Graphics2D g2d = (Graphics2D) graphics;
+                g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+                slipPannel.printAll(graphics);
+
+                return PAGE_EXISTS;
+            }
+        });
+
+        if (job.printDialog()) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+ 
+// To save as PDF
+ public static void savePanelAsPDF(JPanel panel, String filePath) {
+        Document document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            document.open();
+            com.itextpdf.text.pdf.PdfContentByte contentByte = writer.getDirectContent();
+            com.itextpdf.text.pdf.PdfTemplate template = contentByte.createTemplate(panel.getWidth(), panel.getHeight());
+            Graphics2D g2d = template.createGraphics(panel.getWidth(), panel.getHeight());
+            panel.print(g2d);
+            g2d.dispose();
+            contentByte.addTemplate(template, 0, 0);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (document != null) {
+                document.close();
+            }
+        }}
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,6 +117,9 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        btn_printSlip = new javax.swing.JButton();
+        btn_savePDF = new javax.swing.JButton();
+        slipPannel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -55,25 +136,53 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         slip_vehicleNo1 = new javax.swing.JLabel();
         slip_brand = new javax.swing.JLabel();
         slip_model = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         slip_specialReq1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         slip_borrowDate1 = new javax.swing.JLabel();
         slip_returnDate1 = new javax.swing.JLabel();
         slip_cusName1 = new javax.swing.JLabel();
         slip_cusPhone1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(224, 248, 255));
         jPanel1.setLayout(null);
+
+        btn_printSlip.setBackground(new java.awt.Color(0, 69, 64));
+        btn_printSlip.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
+        btn_printSlip.setForeground(new java.awt.Color(255, 255, 255));
+        btn_printSlip.setText("Print Slip");
+        btn_printSlip.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_printSlipActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_printSlip);
+        btn_printSlip.setBounds(290, 10, 140, 40);
+
+        btn_savePDF.setBackground(new java.awt.Color(0, 0, 0));
+        btn_savePDF.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
+        btn_savePDF.setForeground(new java.awt.Color(255, 255, 255));
+        btn_savePDF.setText("Save PDF");
+        btn_savePDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_savePDFActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_savePDF);
+        btn_savePDF.setBounds(130, 10, 140, 40);
+
+        slipPannel.setBackground(new java.awt.Color(255, 255, 255));
+        slipPannel.setLayout(null);
 
         jLabel1.setBackground(new java.awt.Color(0, 51, 68));
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("BOOKING SLIP");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 6, 555, 56);
+        slipPannel.add(jLabel1);
+        jLabel1.setBounds(0, 6, 550, 56);
 
         jPanel2.setBackground(new java.awt.Color(23, 0, 57));
 
@@ -81,129 +190,146 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
+            .addGap(0, 570, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 0, 560, 60);
+        slipPannel.add(jPanel2);
+        jPanel2.setBounds(0, 0, 570, 60);
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 40, 107));
         jLabel3.setText("RideX Vehicle Rental Management System");
-        jPanel1.add(jLabel3);
+        slipPannel.add(jLabel3);
         jLabel3.setBounds(90, 70, 440, 30);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel4.setText("Total");
-        jPanel1.add(jLabel4);
+        slipPannel.add(jLabel4);
         jLabel4.setBounds(120, 450, 160, 40);
 
         slip_Total.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_Total.setText("-");
-        jPanel1.add(slip_Total);
-        slip_Total.setBounds(300, 450, 160, 40);
+        slipPannel.add(slip_Total);
+        slip_Total.setBounds(300, 450, 230, 40);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel6.setText("Brand:");
-        jPanel1.add(jLabel6);
+        slipPannel.add(jLabel6);
         jLabel6.setBounds(30, 160, 160, 40);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel7.setText("Model:");
-        jPanel1.add(jLabel7);
+        slipPannel.add(jLabel7);
         jLabel7.setBounds(30, 200, 160, 40);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel8.setText("Special Request");
-        jPanel1.add(jLabel8);
+        slipPannel.add(jLabel8);
         jLabel8.setBounds(30, 240, 200, 40);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel9.setText("Customer Phone:");
-        jPanel1.add(jLabel9);
+        slipPannel.add(jLabel9);
         jLabel9.setBounds(30, 400, 200, 40);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel10.setText("Return Date:");
-        jPanel1.add(jLabel10);
+        slipPannel.add(jLabel10);
         jLabel10.setBounds(30, 320, 160, 40);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel11.setText("Borrow Date:");
-        jPanel1.add(jLabel11);
+        slipPannel.add(jLabel11);
         jLabel11.setBounds(30, 280, 160, 40);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel12.setText("Customer Name:");
-        jPanel1.add(jLabel12);
+        slipPannel.add(jLabel12);
         jLabel12.setBounds(30, 360, 200, 40);
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel13.setText("Vehicle No.:");
-        jPanel1.add(jLabel13);
+        slipPannel.add(jLabel13);
         jLabel13.setBounds(30, 120, 160, 40);
 
         slip_vehicleNo1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_vehicleNo1.setText("-");
-        jPanel1.add(slip_vehicleNo1);
-        slip_vehicleNo1.setBounds(300, 120, 160, 40);
+        slipPannel.add(slip_vehicleNo1);
+        slip_vehicleNo1.setBounds(300, 120, 240, 40);
 
         slip_brand.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_brand.setText("-");
-        jPanel1.add(slip_brand);
-        slip_brand.setBounds(300, 160, 160, 40);
+        slipPannel.add(slip_brand);
+        slip_brand.setBounds(300, 160, 240, 40);
 
         slip_model.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_model.setText("-");
-        jPanel1.add(slip_model);
-        slip_model.setBounds(300, 190, 160, 40);
+        slipPannel.add(slip_model);
+        slip_model.setBounds(300, 190, 240, 40);
+
+        slip_specialReq1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        slip_specialReq1.setText("-");
+        slipPannel.add(slip_specialReq1);
+        slip_specialReq1.setBounds(300, 230, 240, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/longbillborder.png"))); // NOI18N
-        jPanel1.add(jLabel2);
+        slipPannel.add(jLabel2);
         jLabel2.setBounds(10, 90, 540, 440);
-
-        slip_specialReq1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        slip_specialReq1.setText("-");
-        jPanel1.add(slip_specialReq1);
-        slip_specialReq1.setBounds(300, 230, 160, 40);
 
         slip_borrowDate1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_borrowDate1.setText("-");
-        jPanel1.add(slip_borrowDate1);
-        slip_borrowDate1.setBounds(300, 270, 160, 40);
+        slipPannel.add(slip_borrowDate1);
+        slip_borrowDate1.setBounds(300, 270, 230, 40);
 
         slip_returnDate1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_returnDate1.setText("-");
-        jPanel1.add(slip_returnDate1);
-        slip_returnDate1.setBounds(300, 310, 160, 40);
+        slipPannel.add(slip_returnDate1);
+        slip_returnDate1.setBounds(300, 310, 230, 40);
 
         slip_cusName1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_cusName1.setText("-");
-        jPanel1.add(slip_cusName1);
-        slip_cusName1.setBounds(300, 350, 160, 40);
+        slipPannel.add(slip_cusName1);
+        slip_cusName1.setBounds(300, 350, 240, 40);
 
         slip_cusPhone1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_cusPhone1.setText("-");
-        jPanel1.add(slip_cusPhone1);
-        slip_cusPhone1.setBounds(300, 390, 160, 40);
+        slipPannel.add(slip_cusPhone1);
+        slip_cusPhone1.setBounds(300, 390, 240, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(slipPannel, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(slipPannel, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(586, 620));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_printSlipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_printSlipActionPerformed
+printSlip();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_printSlipActionPerformed
+
+    private void btn_savePDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_savePDFActionPerformed
+        String pathToSavePDF="C:\\Users\\hello\\OneDrive\\Documents\\BookingSlips\\slip.pdf";
+        savePanelAsPDF(slipPannel,pathToSavePDF);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_savePDFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,6 +367,8 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_printSlip;
+    private javax.swing.JButton btn_savePDF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -255,6 +383,7 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel slipPannel;
     private javax.swing.JLabel slip_Total;
     private javax.swing.JLabel slip_borrowDate1;
     private javax.swing.JLabel slip_brand;
