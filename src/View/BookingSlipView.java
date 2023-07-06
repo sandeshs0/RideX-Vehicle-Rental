@@ -145,6 +145,7 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(224, 248, 255));
         jPanel1.setLayout(null);

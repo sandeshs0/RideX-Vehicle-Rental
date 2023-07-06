@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import Controller.SignupController;
+import Controller.DashboardController;
 
 /**
  *
@@ -30,6 +31,9 @@ public class DashboardView extends javax.swing.JFrame {
     public DashboardView() {
         initComponents();
         updateVehicleCards();
+        DashboardController obj=new DashboardController();
+        obj.setRecordsToTable(tbl_vehicleData);
+        
         
         
 //        x.getClass() 
@@ -119,6 +123,7 @@ public class DashboardView extends javax.swing.JFrame {
         vechiclesOnFleetCard = new javax.swing.JPanel();
         txtVehiclesCard = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        vehicleCardBtn = new javax.swing.JButton();
         NavBar = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         navbtn_Billing = new javax.swing.JButton();
@@ -129,17 +134,21 @@ public class DashboardView extends javax.swing.JFrame {
         OnRentCard = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         txtOnRent = new javax.swing.JLabel();
+        onRentCardBtn = new javax.swing.JButton();
         BookingCard = new javax.swing.JPanel();
         txtBooking = new javax.swing.JLabel();
         bookinglab = new javax.swing.JLabel();
+        BookingCardBtn = new javax.swing.JButton();
+        canvas1 = new java.awt.Canvas();
         AlertsCard = new javax.swing.JPanel();
         txtAlerts = new javax.swing.JLabel();
         AlertsLab = new javax.swing.JLabel();
+        AlertsCardBtn = new javax.swing.JButton();
         OverdueCard = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         txtOverdue = new javax.swing.JLabel();
+        OverdueCardBtn = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -153,6 +162,7 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollBar1 = new javax.swing.JScrollBar();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 0, 51));
@@ -177,6 +187,17 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel5.setText("Vehicles on Fleet");
         vechiclesOnFleetCard.add(jLabel5);
         jLabel5.setBounds(10, 110, 170, 42);
+
+        vehicleCardBtn.setBackground(new java.awt.Color(18, 20, 40));
+        vehicleCardBtn.setBorder(null);
+        vehicleCardBtn.setBorderPainted(false);
+        vehicleCardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vehicleCardBtnActionPerformed(evt);
+            }
+        });
+        vechiclesOnFleetCard.add(vehicleCardBtn);
+        vehicleCardBtn.setBounds(-10, -10, 250, 180);
 
         getContentPane().add(vechiclesOnFleetCard);
         vechiclesOnFleetCard.setBounds(190, 120, 230, 160);
@@ -263,9 +284,20 @@ public class DashboardView extends javax.swing.JFrame {
 
         txtOnRent.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
         txtOnRent.setForeground(new java.awt.Color(255, 255, 255));
-        txtOnRent.setText("10");
+        txtOnRent.setText("-");
         OnRentCard.add(txtOnRent);
         txtOnRent.setBounds(10, 0, 110, 90);
+
+        onRentCardBtn.setBackground(new java.awt.Color(16, 107, 39));
+        onRentCardBtn.setBorder(null);
+        onRentCardBtn.setBorderPainted(false);
+        onRentCardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onRentCardBtnActionPerformed(evt);
+            }
+        });
+        OnRentCard.add(onRentCardBtn);
+        onRentCardBtn.setBounds(-10, -10, 250, 180);
 
         getContentPane().add(OnRentCard);
         OnRentCard.setBounds(450, 120, 230, 160);
@@ -276,7 +308,7 @@ public class DashboardView extends javax.swing.JFrame {
         txtBooking.setBackground(new java.awt.Color(50, 116, 178));
         txtBooking.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
         txtBooking.setForeground(new java.awt.Color(255, 255, 255));
-        txtBooking.setText("10");
+        txtBooking.setText("-");
         BookingCard.add(txtBooking);
         txtBooking.setBounds(10, 10, 110, 80);
 
@@ -285,6 +317,19 @@ public class DashboardView extends javax.swing.JFrame {
         bookinglab.setText("Booking");
         BookingCard.add(bookinglab);
         bookinglab.setBounds(10, 110, 90, 42);
+
+        BookingCardBtn.setBackground(new java.awt.Color(50, 44, 151));
+        BookingCardBtn.setBorder(null);
+        BookingCardBtn.setBorderPainted(false);
+        BookingCardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BookingCardBtnActionPerformed(evt);
+            }
+        });
+        BookingCard.add(BookingCardBtn);
+        BookingCardBtn.setBounds(-10, -10, 250, 180);
+        BookingCard.add(canvas1);
+        canvas1.setBounds(210, 70, 0, 0);
 
         getContentPane().add(BookingCard);
         BookingCard.setBounds(710, 120, 230, 160);
@@ -295,7 +340,7 @@ public class DashboardView extends javax.swing.JFrame {
         txtAlerts.setBackground(new java.awt.Color(50, 116, 178));
         txtAlerts.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
         txtAlerts.setForeground(new java.awt.Color(255, 255, 255));
-        txtAlerts.setText("10");
+        txtAlerts.setText("-");
         AlertsCard.add(txtAlerts);
         txtAlerts.setBounds(10, 0, 140, 110);
 
@@ -304,6 +349,17 @@ public class DashboardView extends javax.swing.JFrame {
         AlertsLab.setText("Alerts");
         AlertsCard.add(AlertsLab);
         AlertsLab.setBounds(10, 110, 90, 42);
+
+        AlertsCardBtn.setBackground(new java.awt.Color(186, 111, 18));
+        AlertsCardBtn.setBorder(null);
+        AlertsCardBtn.setBorderPainted(false);
+        AlertsCardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AlertsCardBtnActionPerformed(evt);
+            }
+        });
+        AlertsCard.add(AlertsCardBtn);
+        AlertsCardBtn.setBounds(-10, -10, 250, 180);
 
         getContentPane().add(AlertsCard);
         AlertsCard.setBounds(970, 120, 230, 160);
@@ -322,9 +378,20 @@ public class DashboardView extends javax.swing.JFrame {
         txtOverdue.setBackground(new java.awt.Color(50, 116, 178));
         txtOverdue.setFont(new java.awt.Font("Dubai", 1, 90)); // NOI18N
         txtOverdue.setForeground(new java.awt.Color(255, 255, 255));
-        txtOverdue.setText("10");
+        txtOverdue.setText("-");
         OverdueCard.add(txtOverdue);
         txtOverdue.setBounds(10, 10, 160, 90);
+
+        OverdueCardBtn.setBackground(new java.awt.Color(215, 71, 68));
+        OverdueCardBtn.setBorder(null);
+        OverdueCardBtn.setBorderPainted(false);
+        OverdueCardBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OverdueCardBtnActionPerformed(evt);
+            }
+        });
+        OverdueCard.add(OverdueCardBtn);
+        OverdueCardBtn.setBounds(-10, -10, 250, 180);
 
         getContentPane().add(OverdueCard);
         OverdueCard.setBounds(1230, 120, 230, 160);
@@ -333,11 +400,6 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel8.setLayout(null);
         getContentPane().add(jPanel8);
         jPanel8.setBounds(-1210, -240, 1770, 0);
-
-        jLabel16.setFont(new java.awt.Font("Dubai", 0, 36)); // NOI18N
-        jLabel16.setText("DASHBOARD");
-        getContentPane().add(jLabel16);
-        jLabel16.setBounds(191, 61, 233, 62);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(null);
@@ -422,8 +484,13 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel2.add(jScrollBar1);
         jScrollBar1.setBounds(1290, 420, 10, 48);
 
+        jLabel16.setFont(new java.awt.Font("Dubai", 0, 36)); // NOI18N
+        jLabel16.setText("DASHBOARD");
+        jPanel2.add(jLabel16);
+        jLabel16.setBounds(50, 30, 233, 62);
+
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(150, 0, 1390, 880);
+        jPanel2.setBounds(160, 0, 1370, 880);
 
         setBounds(0, 0, 1550, 1087);
     }// </editor-fold>//GEN-END:initComponents
@@ -470,6 +537,28 @@ public class DashboardView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tbl_vehicleDataMouseClicked
 
+    private void vehicleCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehicleCardBtnActionPerformed
+new VehiclesView().setVisible(true);
+               dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vehicleCardBtnActionPerformed
+
+    private void onRentCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRentCardBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onRentCardBtnActionPerformed
+
+    private void BookingCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingCardBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BookingCardBtnActionPerformed
+
+    private void AlertsCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlertsCardBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AlertsCardBtnActionPerformed
+
+    private void OverdueCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OverdueCardBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_OverdueCardBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -508,13 +597,17 @@ public class DashboardView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AlertsCard;
+    private javax.swing.JButton AlertsCardBtn;
     private javax.swing.JLabel AlertsLab;
     private javax.swing.JPanel BookingCard;
+    private javax.swing.JButton BookingCardBtn;
     private javax.swing.JPanel NavBar;
     private javax.swing.JPanel OnRentCard;
     private javax.swing.JPanel OverdueCard;
+    private javax.swing.JButton OverdueCardBtn;
     private javax.swing.JLabel bookinglab;
     private javax.swing.JButton btnViewProfile;
+    private java.awt.Canvas canvas1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -537,6 +630,7 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JButton navbtn_Customers;
     private javax.swing.JButton navbtn_Dashboard;
     private javax.swing.JButton navbtn_Vehicles;
+    private javax.swing.JButton onRentCardBtn;
     private javax.swing.JTable tbl_vehicleData;
     private javax.swing.JLabel txtAlerts;
     private javax.swing.JLabel txtBooking;
@@ -545,5 +639,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel txtVehiclesCard;
     private javax.swing.JTextField txt_search;
     private javax.swing.JPanel vechiclesOnFleetCard;
+    private javax.swing.JButton vehicleCardBtn;
     // End of variables declaration//GEN-END:variables
 }

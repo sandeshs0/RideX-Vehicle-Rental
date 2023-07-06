@@ -9,9 +9,9 @@ package Model;
  * @author hello
  */
 public class BookingSlipModel {
-    private String VechicleNumber,brand,model,special_request,borrow_date,return_date,customer_name,customer_number,total;
+    private String VechicleNumber,brand,model,special_request,borrow_date,return_date,customer_name,customer_number,total,collateral,advancePayment;
 
-    public BookingSlipModel(String VechicleNumber, String brand, String model, String special_request, String borrow_date, String return_date, String customer_name, String customer_number, String total) {
+    public BookingSlipModel(String VechicleNumber, String brand, String model, String special_request, String borrow_date, String return_date, String customer_name, String customer_number, String total,String collateral, String advancePayment) {
         this.VechicleNumber = VechicleNumber;
         this.brand = brand;
         this.model = model;
@@ -21,6 +21,24 @@ public class BookingSlipModel {
         this.customer_name = customer_name;
         this.customer_number = customer_number;
         this.total = total;
+        this.collateral=collateral;
+        this.advancePayment=advancePayment;
+    }
+
+    public String getCollateral() {
+        return collateral;
+    }
+
+    public void setCollateral(String collateral) {
+        this.collateral = collateral;
+    }
+
+    public String getAdvancePayment() {
+        return advancePayment;
+    }
+
+    public void setAdvancePayment(String advancePayment) {
+        this.advancePayment = advancePayment;
     }
    
 

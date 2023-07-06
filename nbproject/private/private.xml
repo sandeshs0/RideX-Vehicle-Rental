@@ -4,23 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/loginView.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/landingView.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Controller/DashboardController.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Controller/CustomerController.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Model/BookingModel.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/VehiclesView.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/Signupview.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/BookingsView.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Model/LoginModel.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/SignupDAO.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Model/BookingSlipModel.java</file>
             <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/BookingSlipView.java</file>
             <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/DashboardView.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Controller/SignupController.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/LoginDAO.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/ridex/vrm/main/RidexVRMMain.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/Controller/LoginController.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/landingView.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/loginView_1.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/dbConnection.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/VehiclesView.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/BookingsView.java</file>
             <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/CustomerView.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/loginView_1_1.java</file>
         </group>
     </open-files>
 </project-private>

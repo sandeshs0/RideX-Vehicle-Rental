@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 /**
  * 
- * @author hello
+ * @author helloe
  */
 public class BookingsView extends javax.swing.JFrame {
 
@@ -38,7 +38,7 @@ public class BookingsView extends javax.swing.JFrame {
     public void setRecordsToTable(){
         try{
             Connection con = dbConnection.dbconnect();
-            PreparedStatement pst = con.prepareStatement("select * from vehicle");
+            PreparedStatement pst = con.prepareStatement("select * from vehicle where status='Available'");
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()){
@@ -83,15 +83,18 @@ public class BookingsView extends javax.swing.JFrame {
         navbtn_Customers = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         txt_search = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         bk_date = new com.toedter.calendar.JDateChooser();
+        advAmt = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_vehicleData = new javax.swing.JTable();
         bk_vehicleNo = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
         bk_Model = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         bk_Days = new javax.swing.JTextField();
+        bk_Collateral = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         bk_Brand = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -110,7 +113,6 @@ public class BookingsView extends javax.swing.JFrame {
         btn_calculate = new javax.swing.JButton();
         bg_booking = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -218,15 +220,21 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txt_search);
-        txt_search.setBounds(970, 20, 370, 50);
-
-        jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
-        jLabel8.setText("Available Vehicles");
-        jPanel2.add(jLabel8);
-        jLabel8.setBounds(880, 100, 300, 53);
+        txt_search.setBounds(910, 20, 370, 50);
         jPanel2.add(bk_date);
         bk_date.setBounds(350, 500, 200, 30);
 
+        advAmt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        advAmt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        advAmt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                advAmtActionPerformed(evt);
+            }
+        });
+        jPanel2.add(advAmt);
+        advAmt.setBounds(1040, 670, 200, 40);
+
+        tbl_vehicleData.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tbl_vehicleData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -235,6 +243,7 @@ public class BookingsView extends javax.swing.JFrame {
                 "Type", "Brand", "Model", "Vehicle No", "Fuel", "Rate", "Color", "Speed"
             }
         ));
+        tbl_vehicleData.setRowHeight(35);
         tbl_vehicleData.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_vehicleDataMouseClicked(evt);
@@ -243,7 +252,7 @@ public class BookingsView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_vehicleData);
 
         jPanel2.add(jScrollPane1);
-        jScrollPane1.setBounds(800, 140, 452, 220);
+        jScrollPane1.setBounds(742, 90, 560, 290);
 
         bk_vehicleNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_vehicleNo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -254,6 +263,12 @@ public class BookingsView extends javax.swing.JFrame {
         });
         jPanel2.add(bk_vehicleNo);
         bk_vehicleNo.setBounds(350, 80, 200, 40);
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 250, 246));
+        jLabel28.setText("Advance Amount:");
+        jPanel2.add(jLabel28);
+        jLabel28.setBounds(830, 680, 210, 30);
 
         bk_Model.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_Model.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -281,11 +296,27 @@ public class BookingsView extends javax.swing.JFrame {
         jPanel2.add(bk_Days);
         bk_Days.setBounds(350, 320, 200, 40);
 
+        bk_Collateral.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bk_Collateral.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        bk_Collateral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bk_CollateralActionPerformed(evt);
+            }
+        });
+        jPanel2.add(bk_Collateral);
+        bk_Collateral.setBounds(300, 670, 250, 40);
+
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 39, 76));
         jLabel11.setText("No of Days");
         jPanel2.add(jLabel11);
         jLabel11.setBounds(130, 320, 140, 29);
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(0, 39, 76));
+        jLabel27.setText("Collateral");
+        jPanel2.add(jLabel27);
+        jLabel27.setBounds(100, 670, 180, 40);
 
         bk_Brand.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_Brand.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -307,7 +338,7 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel18.setForeground(new java.awt.Color(255, 250, 246));
         jLabel18.setText("Total");
         jPanel2.add(jLabel18);
-        jLabel18.setBounds(860, 670, 140, 30);
+        jLabel18.setBounds(870, 630, 140, 30);
 
         bk_SpecialReq.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_SpecialReq.setText("No Requests");
@@ -352,7 +383,7 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel14.setForeground(new java.awt.Color(0, 39, 76));
         jLabel14.setText("Phone Number");
         jPanel2.add(jLabel14);
-        jLabel14.setBounds(100, 650, 180, 40);
+        jLabel14.setBounds(100, 620, 180, 40);
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 39, 76));
@@ -374,7 +405,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         jPanel2.add(bk_PhoneNo);
-        bk_PhoneNo.setBounds(300, 650, 250, 40);
+        bk_PhoneNo.setBounds(300, 620, 250, 40);
 
         bk_Surcharge.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         bk_Surcharge.setText("0");
@@ -417,98 +448,94 @@ public class BookingsView extends javax.swing.JFrame {
         jPanel2.add(jLabel6);
         jLabel6.setBounds(40, 40, 650, 530);
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ratelistBG.png"))); // NOI18N
-        jPanel2.add(jLabel7);
-        jLabel7.setBounds(710, 80, 650, 310);
-
         jLabel15.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
-        jLabel15.setText("Search Vehicle");
+        jLabel15.setText("Select Vehicle:");
         jPanel2.add(jLabel15);
-        jLabel15.setBounds(780, 30, 290, 53);
+        jLabel15.setBounds(720, 20, 290, 53);
 
         jLabel19.setFont(new java.awt.Font("Segoe UI Black", 1, 24)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Summary");
         jPanel2.add(jLabel19);
-        jLabel19.setBounds(960, 420, 160, 33);
+        jLabel19.setBounds(960, 390, 160, 33);
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 250, 246));
         jLabel21.setText("Vehicle No");
         jPanel2.add(jLabel21);
-        jLabel21.setBounds(820, 480, 140, 30);
+        jLabel21.setBounds(830, 440, 140, 30);
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 250, 246));
         jLabel22.setText("Rate");
         jPanel2.add(jLabel22);
-        jLabel22.setBounds(820, 510, 140, 30);
+        jLabel22.setBounds(830, 470, 140, 30);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 250, 246));
         jLabel23.setText("Days Rented");
         jPanel2.add(jLabel23);
-        jLabel23.setBounds(820, 540, 140, 30);
+        jLabel23.setBounds(830, 500, 140, 30);
 
         jLabel24.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(255, 250, 246));
         jLabel24.setText("Surcharge");
         jPanel2.add(jLabel24);
-        jLabel24.setBounds(820, 570, 140, 30);
+        jLabel24.setBounds(830, 530, 140, 30);
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(255, 250, 246));
         jLabel25.setText("Tax");
         jPanel2.add(jLabel25);
-        jLabel25.setBounds(820, 600, 140, 30);
+        jLabel25.setBounds(830, 560, 140, 30);
 
         sum_vehicleNo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_vehicleNo.setForeground(new java.awt.Color(255, 250, 246));
         sum_vehicleNo.setText("-");
         jPanel2.add(sum_vehicleNo);
-        sum_vehicleNo.setBounds(1050, 480, 210, 30);
+        sum_vehicleNo.setBounds(1060, 440, 210, 30);
 
         sum_Rate.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_Rate.setForeground(new java.awt.Color(255, 250, 246));
         sum_Rate.setText("-");
         jPanel2.add(sum_Rate);
-        sum_Rate.setBounds(1050, 510, 160, 30);
+        sum_Rate.setBounds(1060, 470, 160, 30);
 
         sum_days.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_days.setForeground(new java.awt.Color(255, 250, 246));
         sum_days.setText("-");
         jPanel2.add(sum_days);
-        sum_days.setBounds(1050, 540, 160, 30);
+        sum_days.setBounds(1060, 500, 160, 30);
 
         sum_surcharge.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_surcharge.setForeground(new java.awt.Color(255, 250, 246));
         sum_surcharge.setText("-");
         jPanel2.add(sum_surcharge);
-        sum_surcharge.setBounds(1050, 570, 160, 30);
+        sum_surcharge.setBounds(1060, 530, 160, 30);
 
         sum_total.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_total.setForeground(new java.awt.Color(255, 250, 246));
         sum_total.setText("-");
         jPanel2.add(sum_total);
-        sum_total.setBounds(1060, 670, 140, 30);
+        sum_total.setBounds(1070, 630, 140, 30);
 
         sum_tax.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_tax.setForeground(new java.awt.Color(255, 250, 246));
         sum_tax.setText("-");
         jPanel2.add(sum_tax);
-        sum_tax.setBounds(1050, 600, 160, 30);
+        sum_tax.setBounds(1060, 560, 160, 30);
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 250, 246));
         jLabel26.setText("Customer");
         jPanel2.add(jLabel26);
-        jLabel26.setBounds(820, 630, 140, 30);
+        jLabel26.setBounds(830, 590, 140, 30);
 
         sum_customer.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         sum_customer.setForeground(new java.awt.Color(255, 250, 246));
         sum_customer.setText("-");
         jPanel2.add(sum_customer);
-        sum_customer.setBounds(1050, 630, 210, 30);
+        sum_customer.setBounds(1060, 590, 210, 30);
 
         btn_Book.setBackground(new java.awt.Color(154, 57, 23));
         btn_Book.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -524,11 +551,11 @@ public class BookingsView extends javax.swing.JFrame {
 
         Outline.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bill border.png"))); // NOI18N
         jPanel2.add(Outline);
-        Outline.setBounds(750, 430, 580, 310);
+        Outline.setBounds(760, 390, 580, 310);
 
         summarybg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bgdark.png"))); // NOI18N
         jPanel2.add(summarybg);
-        summarybg.setBounds(710, 330, 630, 540);
+        summarybg.setBounds(710, 310, 630, 540);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -725,6 +752,8 @@ private void BookVehicle(){
     String specialReq = bk_SpecialReq.getText();
     String surchargeStr = bk_Surcharge.getText();
     String bookingDate = dateFormat.format(selectedDate);
+    String collateral=bk_Collateral.getText();
+    String advaAmt=advAmt.getText();
     
 //Calulating the return Date:
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -733,7 +762,7 @@ private void BookVehicle(){
     LocalDate retDate = parsedDate.plusDays(numberOfDaysToAdd); 
     String returnDate = retDate.format(dateFormatter);     
 // Check if any field is empty
-    if (Vno.isEmpty() || brand.isEmpty() || model.isEmpty() || rateStr.isEmpty() || daysStr.isEmpty() || specialReq.isEmpty() || surchargeStr.isEmpty()) {
+    if (Vno.isEmpty() || brand.isEmpty() || model.isEmpty() || rateStr.isEmpty() || daysStr.isEmpty() || specialReq.isEmpty() || surchargeStr.isEmpty() || collateral.isEmpty()|| advaAmt.isEmpty()) {
         // Display an error message or perform other necessary action
         JOptionPane.showMessageDialog(this, "Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
     } else {
@@ -756,18 +785,137 @@ private void BookVehicle(){
             String customerName = bookingData[6];
             String customerPhone=bookingData[7];
             String total=bookingData[8];
-        newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total);
-        BookingSlipView bsv1=new BookingSlipView();
-        bsv1.setBookingSlipViewModel(newForm);
-        bsv1.show();
-        
+            double advancePayment = Double.parseDouble(advaAmt);
+            
+                    int customerID = searchCustomerID(customerPhone);
+
+
+        newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total,collateral,advaAmt);
+       
+        // Insert values into the database table
+        boolean insertSuccess = insertBookingData(vehicleNo, rate, bookingDate, returnDate, "Pending", specialReq, Double.parseDouble(total), advancePayment, customerID);
+
+        if (insertSuccess) {
+            updateStatusToNotAvailable(vehicleNo);
+            BookingSlipView bsv1 = new BookingSlipView();
+            bsv1.setBookingSlipViewModel(newForm);
+            bsv1.show();
         }
         else{
             JOptionPane.showMessageDialog(this, "Something Went Wrong");
         }
     }
-
 }
+}
+
+//Method to update the vehicle status:
+public void updateStatusToNotAvailable(String vehicleNo) {
+        // Create an instance of the dbConnection class
+        dbConnection connection = new dbConnection();
+
+        // SQL update statement
+        String sql = "UPDATE vehicle SET status = 'Not Available' WHERE vehicle_no = ?";
+
+        try (Connection conn = connection.dbconnect();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            // Set the vehicle ID parameter
+            statement.setString(1, vehicleNo);
+
+            // Execute the update statement
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Status updated to Not Available successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update status.");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error updating status: " + e.getMessage());
+        }
+    }
+
+// Method to search for customerID in the customer table using customerPhone
+private int searchCustomerID(String customerPhone) {
+    int customerID = 0;
+    try {
+        // Establish database connection
+        Connection connection = dbConnection.dbconnect();
+
+        // Prepare the SQL query to search for customerID
+        String sql = "SELECT cusID FROM customer WHERE phone_number = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        // Set the customerPhone parameter
+        statement.setString(1, customerPhone);
+
+        // Execute the query
+        ResultSet resultSet = statement.executeQuery();
+
+        // Retrieve the customerID if found
+        if (resultSet.next()) {
+            customerID = resultSet.getInt("cusID");
+        }
+
+        // Close the result set, statement, and database connection
+        resultSet.close();
+        statement.close();
+        connection.close();
+    } catch (SQLException e) {
+        // Handle any errors that may occur during the database interaction
+        e.printStackTrace();
+    }
+    return customerID;
+}
+
+
+//Insert Booking data to the database:
+// Method to insert booking data into the database table
+private boolean insertBookingData(String vehicleNo, double rate, String bookingDate, String returnDate, String bookingStatus, String specialRequest, double total, double advancePayment, int customerID) {
+      boolean insertSuccess = false;
+
+    try {
+        // Establish database connection
+        Connection connection = dbConnection.dbconnect();
+
+        // Prepare the SQL insert statement
+        String sql = "INSERT INTO booking (vehicleNo, rate, bookingDate, returnDate, bookingStatus, specialRequest, total, advancePayment, customerID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        // Set the values for the insert statement
+        statement.setString(1, vehicleNo);
+        statement.setDouble(2, rate);
+        statement.setString(3, bookingDate);
+        statement.setString(4, returnDate);
+        statement.setString(5, bookingStatus);
+        statement.setString(6, specialRequest);
+        statement.setDouble(7, total);
+        statement.setDouble(8, advancePayment);
+        statement.setInt(9, customerID);
+
+       // Execute the insert statement
+        int rowsAffected = statement.executeUpdate();
+
+        // Close the statement and database connection
+        statement.close();
+        connection.close();
+
+        // Check if the insertion was successful
+        if (rowsAffected > 0) {
+            insertSuccess = true;
+            JOptionPane.showMessageDialog(this, "Bookingdata inserted successfully!");
+        }
+    } catch (SQLException e) {
+        // Handle any errors that may occur during the database interaction
+        e.printStackTrace();
+    }
+    return insertSuccess;
+}
+
+
+
+//Completed BookingData Insertion
     
 private BookingSlipModel newForm;
 
@@ -830,6 +978,14 @@ String returnDate = retDate.format(dateFormatter);
         // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_CustomersActionPerformed
 
+    private void bk_CollateralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bk_CollateralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bk_CollateralActionPerformed
+
+    private void advAmtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_advAmtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_advAmtActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -868,8 +1024,10 @@ String returnDate = retDate.format(dateFormatter);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel NavBar;
     private javax.swing.JLabel Outline;
+    private javax.swing.JTextField advAmt;
     private javax.swing.JLabel bg_booking;
     private javax.swing.JTextField bk_Brand;
+    private javax.swing.JTextField bk_Collateral;
     private javax.swing.JTextField bk_Days;
     private javax.swing.JTextField bk_Model;
     private javax.swing.JTextField bk_PhoneNo;
@@ -899,11 +1057,11 @@ String returnDate = retDate.format(dateFormatter);
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
