@@ -318,49 +318,170 @@ public class forgotpp extends javax.swing.JFrame {
     }//GEN-LAST:event_txtnewpassActionPerformed
 
     private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
+    
+        String phoneNumber = txtphone.getText();
+    String securityQuestion = txtque.getText();
+    String securityQuestion2 = txtque2.getText();
+    String securityAnswer = txtans.getText();
+    String securityAnswer2 = txtans2.getText();
+    String newPassword = txtnewpass.getText();
+    String confirmPassword = txtconfirmpass.getText();
 
+    try {
+        Connection conn = RideeX.dbconnect();
+        String query = "SELECT * FROM signupp WHERE phone_nummber = ? AND security_question1 = ? AND security_question2 = ? AND security_answer1 = ? AND security_answer2 = ?";
+        PreparedStatement statement = conn.prepareStatement(query);
+        statement.setString(1, phoneNumber);
+        statement.setString(2, securityQuestion);
+        statement.setString(3, securityQuestion2);
+        statement.setString(4, securityAnswer);
+        statement.setString(5, securityAnswer2);
+        ResultSet resultSet = statement.executeQuery();
 
+        if (resultSet.next()) {
+            String updateQuery = "UPDATE signupp SET password = ?, conpassword = ? WHERE phone_nummber = ? AND security_question1 = ? AND security_question2 = ? AND security_answer1 = ? AND security_answer2 = ?";
+            statement = conn.prepareStatement(updateQuery);
+            statement.setString(1, newPassword);
+            statement.setString(2, confirmPassword);
+            statement.setString(3, phoneNumber);
+            statement.setString(4, securityQuestion);
+            statement.setString(5, securityQuestion2);
+            statement.setString(6, securityAnswer);
+            statement.setString(7, securityAnswer2);
+            statement.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Password changed successfully");
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid credentials");
+        }
 
-String phoneNumber = txtphone.getText();
-String securityQuestion = txtque.getText();
-String securityAnswer = txtans.getText();
-String newPassword = txtnewpass.getText();
-String confirmPassword = txtconfirmpass.getText();
-
-try {
-    Connection conn = RideeX.dbconnect();
-    String query = "SELECT * FROM signupp WHERE phone_nummber = ? AND security_question1 = ? AND security_answer1 = ?";
-    PreparedStatement statement = conn.prepareStatement(query);
-    statement.setString(1, phoneNumber);
-    statement.setString(2, securityQuestion);
-    statement.setString(3, securityAnswer);
-    ResultSet resultSet = statement.executeQuery();
-
-    if (resultSet.next()) {
-        String updateQuery = "UPDATE signupp SET password = ?, conpassword = ? WHERE phone_nummber = ? AND security_question1 = ? AND security_answer1 = ?";
-        statement = conn.prepareStatement(updateQuery);
-        statement.setString(1, newPassword);
-        statement.setString(2, confirmPassword);
-        statement.setString(3, phoneNumber);
-        statement.setString(4, securityQuestion);
-        statement.setString(5, securityAnswer);
-        statement.executeUpdate();
-        JOptionPane.showMessageDialog(this, "Password changed successfully");
-    } else {
-        JOptionPane.showMessageDialog(this, "Invalid credentials");
-    }
-
-    conn.close();
-} catch (SQLException ex) {
-    JOptionPane.showMessageDialog(this, "Error connecting to the database");
-    ex.printStackTrace();
+        conn.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Error connecting to the database");
+        ex.printStackTrace();
+    
 }
 
+//try {
+//    Connection conn = RideeX.dbconnect();
+//    String query = "SELECT * FROM signupp WHERE phone_nummber = ?";
+//    PreparedStatement statement = conn.prepareStatement(query);
+//    statement.setString(1, phoneNumber);
+//    ResultSet resultSet = statement.executeQuery();
+//
+//    if (resultSet.next()) {
+//        String dbSecurityQuestion1 = resultSet.getString("security_question1");
+//        String dbSecurityQuestion2 = resultSet.getString("security_question2");
+//        String dbSecurityAnswer1 = resultSet.getString("security_answer1");
+//        String dbSecurityAnswer2 = resultSet.getString("security_answer2");
+//
+//        if (securityQuestion.equals(dbSecurityQuestion1) && securityAnswer.equals(dbSecurityAnswer1) ||
+//            securityQuestion.equals(dbSecurityQuestion2) && securityAnswer.equals(dbSecurityAnswer2)) {
+//            String updateQuery = "UPDATE signupp SET password = ?, conpassword = ? WHERE phone_nummber = ?";
+//            statement = conn.prepareStatement(updateQuery);
+//            statement.setString(1, newPassword);
+//            statement.setString(2, confirmPassword);
+//            statement.setString(3, phoneNumber);
+//            statement.executeUpdate();
+//            JOptionPane.showMessageDialog(this, "Password changed successfully");
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Invalid security question or answer");
+//        }
+//    } else {
+//        JOptionPane.showMessageDialog(this, "Invalid phone number");
+//    }
+//
+//    conn.close();
+//} catch (SQLException ex) {
+//    JOptionPane.showMessageDialog(this, "Error connecting to the database");
+//    ex.printStackTrace();
+//}
 
 
+//String phoneNumber = txtphone.getText();
+//String securityQuestion = txtque.getText();
+//String securityQuestion2 = txtque2.getText();
+//
+//String securityAnswer = txtans.getText();
+//String securityAnswer2 = txtans2.getText();
+//String newPassword = txtnewpass.getText();
+//String confirmPassword = txtconfirmpass.getText();
+
+//String phoneNumber = txtphone.getText();
+//String securityQuestion = txtque.getText();
+//String securityQuestion2 = txtque2.getText();
+//String securityAnswer = txtans.getText();
+//String securityAnswer2 = txtans2.getText();
+//String newPassword = txtnewpass.getText();
+//String confirmPassword = txtconfirmpass.getText();
+//
+//try {
+//    Connection conn = RideeX.dbconnect();
+//    String query = "SELECT * FROM signupp WHERE phone_nummber = ? AND (security_question1 = ? AND security_answer1 = ? OR security_question2 = ? AND security_answer2 = ?)";
+//    PreparedStatement statement = conn.prepareStatement(query);
+//    statement.setString(1, phoneNumber);
+//    statement.setString(2, securityQuestion);
+//    statement.setString(3, securityAnswer);
+//    statement.setString(4, securityQuestion2);
+//    statement.setString(5, securityAnswer2);
+//    ResultSet resultSet = statement.executeQuery();
+//
+//    if (resultSet.next()) {
+//        String updateQuery = "UPDATE signupp SET password = ?, conpassword = ? WHERE phone_nummber = ? AND (security_question1 = ? AND security_answer1 = ? OR security_question2 = ? AND security_answer2 = ?)";
+//        statement = conn.prepareStatement(updateQuery);
+//        statement.setString(1, newPassword);
+//        statement.setString(2, confirmPassword);
+//        statement.setString(3, phoneNumber);
+//        statement.setString(4, securityQuestion);
+//        statement.setString(5, securityAnswer);
+//        statement.setString(6, securityQuestion2);
+//        statement.setString(7, securityAnswer2);
+//        statement.executeUpdate();
+//        JOptionPane.showMessageDialog(this, "Password changed successfully");
+//    } else {
+//        JOptionPane.showMessageDialog(this, "Security questions do not match");
+//    }
+//
+//    conn.close();
+//} catch (SQLException ex) {
+//    JOptionPane.showMessageDialog(this, "Error connecting to the database");
+//    ex.printStackTrace();
+//}
 
 
+//try {
+//    Connection conn = RideeX.dbconnect();
+//    String query = "SELECT * FROM signupp WHERE phone_nummber = ? AND security_question1 = ? AND security_answer1 = ?";
+//    PreparedStatement statement = conn.prepareStatement(query);
+//    statement.setString(1, phoneNumber);
+//    statement.setString(2, securityQuestion);
+//    statement.setString(3, securityAnswer);
+//    ResultSet resultSet = statement.executeQuery();
+//
+//    if (resultSet.next()) {
+//        String updateQuery = "UPDATE signupp SET password = ?, conpassword = ? WHERE phone_nummber = ? AND security_question1 = ? AND security_answer1 = ?";
+//        statement = conn.prepareStatement(updateQuery);
+//        statement.setString(1, newPassword);
+//        statement.setString(2, confirmPassword);
+//        statement.setString(3, phoneNumber);
+//        statement.setString(4, securityQuestion);
+//        statement.setString(5, securityAnswer);
+//        statement.executeUpdate();
+//        JOptionPane.showMessageDialog(this, "Password changed successfully");
+//    } else {
+//        JOptionPane.showMessageDialog(this, "Invalid credentials");
+//    }
+//
+//    conn.close();
+//} catch (SQLException ex) {
+//    JOptionPane.showMessageDialog(this, "Error connecting to the database");
+//    ex.printStackTrace();
+//}
 
+//
+//
+//
+//
+//
 
 
 
