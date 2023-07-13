@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import java.sql.*;
 import View.DashboardView;
+import junit.framework.Assert;
 
 /**
  *
@@ -40,6 +41,7 @@ public void LoginQuery(String phone, String pass){
     
     Connection conn = dbConnection.dbconnect();
     try {
+//        Assert.assertEquals("9876543210", phone);
         Statement stmt = conn.createStatement();
         String query = "SELECT * FROM AdminDetails WHERE PhoneNumber='" + phone + "' AND pass='" + pass + "'";
         ResultSet resultSet = stmt.executeQuery(query);

@@ -10,8 +10,9 @@ package Model;
  */
 public class BookingSlipModel {
     private String VechicleNumber,brand,model,special_request,borrow_date,return_date,customer_name,customer_number,total,collateral,advancePayment;
+    private int bookingId;
 
-    public BookingSlipModel(String VechicleNumber, String brand, String model, String special_request, String borrow_date, String return_date, String customer_name, String customer_number, String total,String collateral, String advancePayment) {
+    public BookingSlipModel(String VechicleNumber, String brand, String model, String special_request, String borrow_date, String return_date, String customer_name, String customer_number, String total,String collateral, String advancePayment, int bookingId) {
         this.VechicleNumber = VechicleNumber;
         this.brand = brand;
         this.model = model;
@@ -23,6 +24,15 @@ public class BookingSlipModel {
         this.total = total;
         this.collateral=collateral;
         this.advancePayment=advancePayment;
+        this.bookingId=bookingId;
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public String getCollateral() {

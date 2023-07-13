@@ -19,8 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 /**
- * 
  * @author helloe
  */
 public class BookingsView extends javax.swing.JFrame {
@@ -51,9 +51,6 @@ public class BookingsView extends javax.swing.JFrame {
                 String rate = rs.getString("rate");
                 String color = rs.getString("color");
                 String speed = rs.getString("speed");
-
-                
-                
                 Object[] obj = {vehicleType, vehiclebrand,vehiclemodel, vehicleNo,fuel,rate,color,speed};
                 model = (DefaultTableModel)tbl_vehicleData.getModel();
                 model.addRow(obj);
@@ -754,6 +751,7 @@ private void BookVehicle(){
     String bookingDate = dateFormat.format(selectedDate);
     String collateral=bk_Collateral.getText();
     String advaAmt=advAmt.getText();
+
     
 //Calulating the return Date:
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -789,11 +787,11 @@ private void BookVehicle(){
             
                     int customerID = searchCustomerID(customerPhone);
 
-
-        newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total,collateral,advaAmt);
+int bookingID=generateBookingID();
+        newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total,collateral,advaAmt,bookingID);
        
         // Insert values into the database table
-        boolean insertSuccess = insertBookingData(vehicleNo, rate, bookingDate, returnDate, "Pending", specialReq, Double.parseDouble(total), advancePayment, customerID);
+        boolean insertSuccess = insertBookingData(vehicleNo, rate, bookingDate, returnDate, "Pending", specialReq, Double.parseDouble(total), advancePayment, customerID, bookingID,collateral);
 
         if (insertSuccess) {
             updateStatusToNotAvailable(vehicleNo);
@@ -807,6 +805,21 @@ private void BookVehicle(){
     }
 }
 }
+//Method to generate bookingID
+
+
+public static int generateBookingID() {
+        Random random = new Random();
+        StringBuilder builder = new StringBuilder(6);
+
+        for (int i = 0; i < 6; i++) {
+            int randomDigit = random.nextInt(10); // Generate a random digit between 0 and 9
+            builder.append(randomDigit);
+        }
+
+        return Integer.parseInt(builder.toString());
+    }
+
 
 //Method to update the vehicle status:
 public void updateStatusToNotAvailable(String vehicleNo) {
@@ -872,7 +885,7 @@ private int searchCustomerID(String customerPhone) {
 
 //Insert Booking data to the database:
 // Method to insert booking data into the database table
-private boolean insertBookingData(String vehicleNo, double rate, String bookingDate, String returnDate, String bookingStatus, String specialRequest, double total, double advancePayment, int customerID) {
+private boolean insertBookingData(String vehicleNo, double rate, String bookingDate, String returnDate, String bookingStatus, String specialRequest, double total, double advancePayment, int customerID,int bookingId, String collateral) {
       boolean insertSuccess = false;
 
     try {
@@ -880,7 +893,7 @@ private boolean insertBookingData(String vehicleNo, double rate, String bookingD
         Connection connection = dbConnection.dbconnect();
 
         // Prepare the SQL insert statement
-        String sql = "INSERT INTO booking (vehicleNo, rate, bookingDate, returnDate, bookingStatus, specialRequest, total, advancePayment, customerID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO booking (vehicleNo, rate, bookingDate, returnDate, bookingStatus, specialRequest, total, advancePayment, customerID,bookingId,collateral) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
         PreparedStatement statement = connection.prepareStatement(sql);
 
         // Set the values for the insert statement
@@ -893,6 +906,8 @@ private boolean insertBookingData(String vehicleNo, double rate, String bookingD
         statement.setDouble(7, total);
         statement.setDouble(8, advancePayment);
         statement.setInt(9, customerID);
+        statement.setInt(10, bookingId);
+        statement.setString(11, collateral);
 
        // Execute the insert statement
         int rowsAffected = statement.executeUpdate();
@@ -978,13 +993,13 @@ String returnDate = retDate.format(dateFormatter);
         // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_CustomersActionPerformed
 
-    private void bk_CollateralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bk_CollateralActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bk_CollateralActionPerformed
-
     private void advAmtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_advAmtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_advAmtActionPerformed
+
+    private void bk_CollateralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bk_CollateralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bk_CollateralActionPerformed
 
     /**
      * @param args the command line arguments

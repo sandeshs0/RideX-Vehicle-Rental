@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import Controller.SignupController;
 import Model.SignupModel;
+import junit.framework.Assert;
 /**
  *
  * @author 
@@ -251,82 +252,25 @@ public class Signupview extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-//private boolean validation() {
-//    // Retrieve input values
-//    String fname = txtfirstname.getText().trim();
-//    String lname = txtlastname.getText().trim();
-//    String phn = txtphone.getText().trim();
-//    String pass = txtpassword.getText().trim();
-//    String conpass = txtconpassword.getText().trim();
-//
-//    // Check if any field is empty
-//    if (fname.equals("") || lname.equals("") || phn.equals("") || pass.equals("") || conpass.equals("")) {
-//        JOptionPane.showMessageDialog(this, "Please fill in all the fields");
-//        return false;
-//    }
-//
-//    // Check if password and confirm password match
-//    if (!pass.equals(conpass)) {
-//        JOptionPane.showMessageDialog(this, "Password and Confirm Password do not match");
-//        return false;
-//    }
-//
-//    // Check if the phone number is valid
-//    String phoneRegex = "^[0-9]{10}$";
-//    if (!phn.matches(phoneRegex)) {
-//        JOptionPane.showMessageDialog(this, "Invalid phone number format. Please enter a 10-digit number");
-//        return false;
-//    }
-//
-//    // Check if the phone number is unique in the signUP table
-//   try {
-//        Connection conn =RideeX.dbconnect();
-//        String query = "SELECT phone_nummber FROM signUP WHERE phone_nummber = ?";
-//        PreparedStatement statement = conn.prepareStatement(query);
-//        statement.setString(1, phn);
-//        ResultSet resultSet = statement.executeQuery();
-//        if (resultSet.next()) {
-//            JOptionPane.showMessageDialog(this, "Phone number is already registered");
-//            return false;
-//        }
-//        conn.close();
-//    } catch (SQLException e) {
-//        JOptionPane.showMessageDialog(this, "Error connecting to the database");
-//        e.printStackTrace();
-//        return false;
-//    }
-//
-//    // All validations passed
-//    return true;
-//}
+
+
     private void btnsignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsignupActionPerformed
-    String fname = txtfirstname.getText().trim();
+
+                Assert.assertEquals("First name cannot be empty", false, txtfirstname.getText().isEmpty());
+                Assert.assertEquals("Last name cannot be empty", false, txtlastname.getText().isEmpty());
+                Assert.assertEquals("Phone Number cannot be empty", false, txtphone.getText().isEmpty());
+                 Assert.assertEquals("Password cannot be empty", false, txtpassword.getText().isEmpty());
+                 Assert.assertEquals("Passwords do not match", txtpassword.getText(), txtconpassword.getText());
+                 
+   String fname = txtfirstname.getText().trim();
     String lname = txtlastname.getText().trim();
     String phn = txtphone.getText().trim();
     String pass = txtpassword.getText().trim();
     String conpass = txtconpassword.getText().trim();
-
    SignupModel obj=new SignupModel(fname,lname,phn,pass,conpass,"ss","ss");
    obj.registerAdmin();
 
-
-//     if(txtpassword.getText().equals(txtconpassword.getText())){
-//boolean ok= obj.validation(fname,lname,phn,pass,conpass,"ss","ss");
-//        if (ok == true) {
-//            obj.registerUser(fname, lname, phn, pass, "hhhh", "jjj");
-//            Connection conn = RideeX.dbconnect();
-//            try {
-//                Statement stmt = conn.createStatement();
-//                String sql = "insert into signup values('" + txtfirstname.getText() + "','" + txtlastname.getText() + "','" + txtphone.getText() + "','" + txtconpassword.getText() + "')";
-//                stmt.executeUpdate(sql);
-//                System.out.println("data inserted");
-//                JOptionPane.showMessageDialog(this, "succefully inserted", "EMPLOYEE", JOptionPane.INFORMATION_MESSAGE);
-//
-//            } catch (Exception e) {
-//                System.out.println(e.getMessage());
-//
-//            }
-//        }
+   
 
 
 

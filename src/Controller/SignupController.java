@@ -111,6 +111,7 @@ import javax.swing.JOptionPane;
 import DAO.dbConnection;
 import View.Signupview;
 import javax.swing.JFrame;
+import junit.framework.Assert;
 
 /**
  * 
@@ -177,6 +178,8 @@ public class SignupController {
         String sql = "INSERT INTO AdminDetails (FirstName, LastName, PhoneNumber, pass, security_qn, sec_ans) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//           Assert.assertEquals("Ram", fname);
+            
             pstmt.setString(1, fname);
             pstmt.setString(2, lname);
             pstmt.setString(3, phn);

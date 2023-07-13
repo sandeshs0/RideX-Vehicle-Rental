@@ -41,13 +41,16 @@ public class BookingSlipView extends javax.swing.JFrame {
         String cusName=bsv1.getCustomer_name();
         String cusPhone=bsv1.getCustomer_number();
         String tot=bsv1.getTotal();
+        int bookingID=bsv1.getBookingId();
+        String advAmt=bsv1.getAdvancePayment();
+        String collateral=bsv1.getCollateral();
         
 //        setting the fields:
-setFields(vehicleNo,brand,model,specialReq,borrowDate,returnDate,cusName,cusPhone,tot);
+setFields(vehicleNo,brand,model,specialReq,borrowDate,returnDate,cusName,cusPhone,tot,bookingID,advAmt,collateral);
     }
     
-public void setFields(String Vno,String Brand,String Model,String SpecialReq,String BorrowDate,String ReturnDate,String CusName,String CusPhone,String Total){
-    slip_vehicleNo1.setText(Vno);
+public void setFields(String Vno,String Brand,String Model,String SpecialReq,String BorrowDate,String ReturnDate,String CusName,String CusPhone,String Total, int bookingId, String advAmt,String Collateral){
+    slip_vehicleNo.setText(Vno);
     slip_brand.setText(Brand);
     slip_model.setText(Model);
     slip_specialReq1.setText(SpecialReq);
@@ -56,6 +59,11 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
     slip_cusName1.setText(CusName);
     slip_cusPhone1.setText(CusPhone);
     slip_Total.setText(String.valueOf(Total));
+    slip_bookingNo.setText(String.valueOf(bookingId));
+    slip_advanceAmt.setText(advAmt);
+    slip_collateral.setText(Collateral);
+    double dues=Double.parseDouble(Total)-Double.parseDouble(advAmt);
+    slip_DueRemaining.setText(String.valueOf(dues));
 }
  public void printSlip() {
         PrinterJob job = PrinterJob.getPrinterJob();
@@ -122,9 +130,11 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         slipPannel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        slip_bookingNo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        slip_Total = new javax.swing.JLabel();
+        slip_advanceAmt = new javax.swing.JLabel();
+        slip_collateral = new javax.swing.JLabel();
+        slip_DueRemaining = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -133,7 +143,7 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        slip_vehicleNo1 = new javax.swing.JLabel();
+        slip_vehicleNo = new javax.swing.JLabel();
         slip_brand = new javax.swing.JLabel();
         slip_model = new javax.swing.JLabel();
         slip_specialReq1 = new javax.swing.JLabel();
@@ -142,6 +152,12 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         slip_returnDate1 = new javax.swing.JLabel();
         slip_cusName1 = new javax.swing.JLabel();
         slip_cusPhone1 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        slip_Total = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -160,7 +176,7 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
             }
         });
         jPanel1.add(btn_printSlip);
-        btn_printSlip.setBounds(290, 10, 140, 40);
+        btn_printSlip.setBounds(290, 20, 140, 40);
 
         btn_savePDF.setBackground(new java.awt.Color(0, 0, 0));
         btn_savePDF.setFont(new java.awt.Font("Segoe UI Light", 1, 24)); // NOI18N
@@ -172,7 +188,7 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
             }
         });
         jPanel1.add(btn_savePDF);
-        btn_savePDF.setBounds(130, 10, 140, 40);
+        btn_savePDF.setBounds(130, 20, 140, 40);
 
         slipPannel.setBackground(new java.awt.Color(255, 255, 255));
         slipPannel.setLayout(null);
@@ -201,105 +217,147 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         slipPannel.add(jPanel2);
         jPanel2.setBounds(0, 0, 570, 60);
 
+        slip_bookingNo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        slip_bookingNo.setForeground(new java.awt.Color(190, 26, 39));
+        slip_bookingNo.setText("-");
+        slipPannel.add(slip_bookingNo);
+        slip_bookingNo.setBounds(300, 120, 230, 40);
+
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed Extra Bold", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 40, 107));
         jLabel3.setText("RideX Vehicle Rental Management System");
         slipPannel.add(jLabel3);
         jLabel3.setBounds(90, 70, 440, 30);
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel4.setText("Total");
-        slipPannel.add(jLabel4);
-        jLabel4.setBounds(120, 450, 160, 40);
+        slip_advanceAmt.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        slip_advanceAmt.setText("-");
+        slipPannel.add(slip_advanceAmt);
+        slip_advanceAmt.setBounds(290, 550, 200, 40);
 
-        slip_Total.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        slip_Total.setText("-");
-        slipPannel.add(slip_Total);
-        slip_Total.setBounds(300, 450, 230, 40);
+        slip_collateral.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        slip_collateral.setText("-");
+        slipPannel.add(slip_collateral);
+        slip_collateral.setBounds(300, 470, 230, 40);
+
+        slip_DueRemaining.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        slip_DueRemaining.setText("-");
+        slipPannel.add(slip_DueRemaining);
+        slip_DueRemaining.setBounds(290, 580, 210, 40);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel6.setText("Brand:");
         slipPannel.add(jLabel6);
-        jLabel6.setBounds(30, 160, 160, 40);
+        jLabel6.setBounds(30, 190, 160, 40);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel7.setText("Model:");
         slipPannel.add(jLabel7);
-        jLabel7.setBounds(30, 200, 160, 40);
+        jLabel7.setBounds(30, 230, 160, 40);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel8.setText("Special Request");
         slipPannel.add(jLabel8);
-        jLabel8.setBounds(30, 240, 200, 40);
+        jLabel8.setBounds(30, 270, 200, 40);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel9.setText("Customer Phone:");
+        jLabel9.setText("Collateral deposited:");
         slipPannel.add(jLabel9);
-        jLabel9.setBounds(30, 400, 200, 40);
+        jLabel9.setBounds(30, 470, 230, 40);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel10.setText("Return Date:");
         slipPannel.add(jLabel10);
-        jLabel10.setBounds(30, 320, 160, 40);
+        jLabel10.setBounds(30, 350, 160, 40);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel11.setText("Borrow Date:");
         slipPannel.add(jLabel11);
-        jLabel11.setBounds(30, 280, 160, 40);
+        jLabel11.setBounds(30, 310, 160, 40);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel12.setText("Customer Name:");
         slipPannel.add(jLabel12);
-        jLabel12.setBounds(30, 360, 200, 40);
+        jLabel12.setBounds(30, 390, 200, 40);
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel13.setText("Vehicle No.:");
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(214, 64, 65));
+        jLabel13.setText("Booking No:");
         slipPannel.add(jLabel13);
-        jLabel13.setBounds(30, 120, 160, 40);
+        jLabel13.setBounds(30, 120, 130, 40);
 
-        slip_vehicleNo1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        slip_vehicleNo1.setText("-");
-        slipPannel.add(slip_vehicleNo1);
-        slip_vehicleNo1.setBounds(300, 120, 240, 40);
+        slip_vehicleNo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        slip_vehicleNo.setText("-");
+        slipPannel.add(slip_vehicleNo);
+        slip_vehicleNo.setBounds(300, 160, 240, 40);
 
         slip_brand.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_brand.setText("-");
         slipPannel.add(slip_brand);
-        slip_brand.setBounds(300, 160, 240, 40);
+        slip_brand.setBounds(300, 190, 240, 40);
 
         slip_model.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_model.setText("-");
         slipPannel.add(slip_model);
-        slip_model.setBounds(300, 190, 240, 40);
+        slip_model.setBounds(300, 220, 240, 40);
 
         slip_specialReq1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         slip_specialReq1.setText("-");
         slipPannel.add(slip_specialReq1);
-        slip_specialReq1.setBounds(300, 230, 240, 40);
+        slip_specialReq1.setBounds(300, 260, 240, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/longbillborder.png"))); // NOI18N
         slipPannel.add(jLabel2);
-        jLabel2.setBounds(10, 90, 540, 440);
+        jLabel2.setBounds(10, 100, 540, 540);
 
         slip_borrowDate1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_borrowDate1.setText("-");
         slipPannel.add(slip_borrowDate1);
-        slip_borrowDate1.setBounds(300, 270, 230, 40);
+        slip_borrowDate1.setBounds(300, 300, 230, 40);
 
         slip_returnDate1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_returnDate1.setText("-");
         slipPannel.add(slip_returnDate1);
-        slip_returnDate1.setBounds(300, 310, 230, 40);
+        slip_returnDate1.setBounds(300, 340, 230, 40);
 
         slip_cusName1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_cusName1.setText("-");
         slipPannel.add(slip_cusName1);
-        slip_cusName1.setBounds(300, 350, 240, 40);
+        slip_cusName1.setBounds(300, 380, 240, 40);
 
         slip_cusPhone1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         slip_cusPhone1.setText("-");
         slipPannel.add(slip_cusPhone1);
-        slip_cusPhone1.setBounds(300, 390, 240, 40);
+        slip_cusPhone1.setBounds(300, 420, 240, 40);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel14.setText("Vehicle No.:");
+        slipPannel.add(jLabel14);
+        jLabel14.setBounds(30, 150, 160, 40);
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel15.setText("Customer Phone:");
+        slipPannel.add(jLabel15);
+        jLabel15.setBounds(30, 430, 200, 40);
+
+        slip_Total.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        slip_Total.setText("-");
+        slipPannel.add(slip_Total);
+        slip_Total.setBounds(290, 520, 230, 40);
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel16.setText("Advance Payment");
+        slipPannel.add(jLabel16);
+        jLabel16.setBounds(60, 550, 200, 40);
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel17.setText("Total");
+        slipPannel.add(jLabel17);
+        jLabel17.setBounds(60, 520, 160, 40);
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel18.setText("Due Remaining");
+        slipPannel.add(jLabel18);
+        jLabel18.setBounds(60, 580, 210, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -311,13 +369,13 @@ public void setFields(String Vno,String Brand,String Model,String SpecialReq,Str
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(slipPannel, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(slipPannel, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(586, 620));
+        setSize(new java.awt.Dimension(586, 768));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -375,9 +433,13 @@ printSlip();
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -385,14 +447,18 @@ printSlip();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel slipPannel;
+    private javax.swing.JLabel slip_DueRemaining;
     private javax.swing.JLabel slip_Total;
+    private javax.swing.JLabel slip_advanceAmt;
+    private javax.swing.JLabel slip_bookingNo;
     private javax.swing.JLabel slip_borrowDate1;
     private javax.swing.JLabel slip_brand;
+    private javax.swing.JLabel slip_collateral;
     private javax.swing.JLabel slip_cusName1;
     private javax.swing.JLabel slip_cusPhone1;
     private javax.swing.JLabel slip_model;
     private javax.swing.JLabel slip_returnDate1;
     private javax.swing.JLabel slip_specialReq1;
-    private javax.swing.JLabel slip_vehicleNo1;
+    private javax.swing.JLabel slip_vehicleNo;
     // End of variables declaration//GEN-END:variables
 }
