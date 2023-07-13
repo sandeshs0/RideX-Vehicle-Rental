@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/VehiclesDAO.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/LoginDAO.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/dbConnection.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/ReturnVehicle.java</file>
             <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/Signupview.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/BookingDAO.java</file>
-            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/DAO/SignupDAO.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/ReturnVehicle.java</file>
+            <file>file:/C:/Users/hello/OneDrive/Documents/NetBeansProjects/Ridex%20VRM%20Main/src/View/BookingsView.java</file>
         </group>
     </open-files>
 </project-private>

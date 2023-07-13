@@ -28,7 +28,9 @@ import java.util.concurrent.TimeUnit;
 public class ReturnVehicle extends javax.swing.JFrame {
 private int bookingId;
 private double total, rate,advancePayment;
-Date returnDate;
+private Date returnDate;
+private String vehicleNo;
+
 
     /**
      * Creates new form BookingsView
@@ -67,7 +69,7 @@ Date returnDate;
 
                     // Process the results
                     if (resultSet.next()) {
-                        String vehicleNo = resultSet.getString("vehicleNo");
+                        vehicleNo = resultSet.getString("vehicleNo");
                        
                         Date bookingDate = resultSet.getDate("bookingDate");
                         returnDate = resultSet.getDate("returnDate");
@@ -115,7 +117,6 @@ Date returnDate;
        labTotal.setText(String.valueOf(GrandTotal));
        double RemainingAmt=GrandTotal-AdvanceAmt;
        labRemainingAmt.setText(String.valueOf(RemainingAmt));
-
  }
    
 public static double calculateFine(String expectedReturnDateString, Date actualReturnDate, double rate) {
@@ -196,10 +197,44 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
 
         return customerPhone;
     }
-    
-    
-    
-    
+      
+// Method to Close the booking:
+      
+//  Method to update the vehicle status
+       private void updateVehicleStatusToAvailable(String vehicleNo) {
+        Connection conn = dbConnection.dbconnect(); // Get the database connection
+
+        try {
+            // Prepare the SQL update statement
+            String sql = "UPDATE vehicle SET status = ? WHERE vehicle_no = ?";
+            
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+                // Set the new status value and vehicleNo parameter
+                statement.setString(1, "Available");
+                statement.setString(2, vehicleNo);
+
+                // Execute the update statement
+                int rowsAffected = statement.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Vehicle Checkout Successful. Collateral is ready to be released");
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database connection
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+      
+//    Method called after button Pressed
+   private void confirmReturn(){
+       updateVehicleStatusToAvailable(vehicleNo);
+   
+   }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -612,6 +647,7 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
     }//GEN-LAST:event_ret_bkNoActionPerformed
 
     private void btn_BookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookActionPerformed
+confirmReturn();
 //String[] bookData=new String[8];
 
     }//GEN-LAST:event_btn_BookActionPerformed

@@ -145,7 +145,7 @@ public class BookingsView extends javax.swing.JFrame {
         navbtn_Billing.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Billing.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         navbtn_Billing.setForeground(new java.awt.Color(255, 255, 255));
-        navbtn_Billing.setText("Billing");
+        navbtn_Billing.setText("Checkout");
         navbtn_Billing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 navbtn_BillingActionPerformed(evt);
@@ -577,7 +577,8 @@ public class BookingsView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void navbtn_BillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BillingActionPerformed
-        // TODO add your handling code here:
+      new ReturnVehicle().setVisible(true);
+        dispose();  // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_BillingActionPerformed
 
     private void navbtn_DashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_DashboardActionPerformed
@@ -791,7 +792,7 @@ int bookingID=generateBookingID();
         newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total,collateral,advaAmt,bookingID);
        
         // Insert values into the database table
-        boolean insertSuccess = insertBookingData(vehicleNo, rate, bookingDate, returnDate, "Pending", specialReq, Double.parseDouble(total), advancePayment, customerID, bookingID,collateral);
+        boolean insertSuccess = insertBookingData(vehicleNo, rate, bookingDate, returnDate, "Active", specialReq, Double.parseDouble(total), advancePayment, customerID, bookingID,collateral);
 
         if (insertSuccess) {
             updateStatusToNotAvailable(vehicleNo);
