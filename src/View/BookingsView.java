@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import View.BookingSlipView;
 import Model.BookingSlipModel; 
 import com.toedter.calendar.JCalendar;
+import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +31,8 @@ public class BookingsView extends javax.swing.JFrame {
      */
     public BookingsView() {
         initComponents();
+        setTitle("RideX: Vehicle Booking Page");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
         setRecordsToTable();
     }
 
@@ -73,6 +76,8 @@ public class BookingsView extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         NavBar = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        navbtn_Transactions = new javax.swing.JButton();
+        navbtn_bookHistory = new javax.swing.JButton();
         navbtn_Billing = new javax.swing.JButton();
         navbtn_Dashboard = new javax.swing.JButton();
         navbtn_Vehicles = new javax.swing.JButton();
@@ -142,6 +147,30 @@ public class BookingsView extends javax.swing.JFrame {
         NavBar.add(jLabel9);
         jLabel9.setBounds(10, 10, 140, 170);
 
+        navbtn_Transactions.setBackground(new java.awt.Color(11, 16, 65));
+        navbtn_Transactions.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        navbtn_Transactions.setForeground(new java.awt.Color(255, 255, 255));
+        navbtn_Transactions.setText("Transactions");
+        navbtn_Transactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navbtn_TransactionsActionPerformed(evt);
+            }
+        });
+        NavBar.add(navbtn_Transactions);
+        navbtn_Transactions.setBounds(0, 630, 170, 40);
+
+        navbtn_bookHistory.setBackground(new java.awt.Color(11, 16, 65));
+        navbtn_bookHistory.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        navbtn_bookHistory.setForeground(new java.awt.Color(255, 255, 255));
+        navbtn_bookHistory.setText("Booking History");
+        navbtn_bookHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navbtn_bookHistoryActionPerformed(evt);
+            }
+        });
+        NavBar.add(navbtn_bookHistory);
+        navbtn_bookHistory.setBounds(0, 580, 180, 40);
+
         navbtn_Billing.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Billing.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         navbtn_Billing.setForeground(new java.awt.Color(255, 255, 255));
@@ -152,7 +181,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Billing);
-        navbtn_Billing.setBounds(0, 530, 160, 40);
+        navbtn_Billing.setBounds(0, 530, 170, 40);
 
         navbtn_Dashboard.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Dashboard.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -164,7 +193,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Dashboard);
-        navbtn_Dashboard.setBounds(0, 330, 160, 40);
+        navbtn_Dashboard.setBounds(0, 330, 170, 40);
 
         navbtn_Vehicles.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Vehicles.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -176,7 +205,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Vehicles);
-        navbtn_Vehicles.setBounds(0, 430, 160, 40);
+        navbtn_Vehicles.setBounds(0, 430, 170, 40);
 
         navbtn_Booking.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Booking.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -188,7 +217,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Booking);
-        navbtn_Booking.setBounds(0, 480, 160, 40);
+        navbtn_Booking.setBounds(0, 480, 170, 40);
 
         navbtn_Customers.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Customers.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -200,7 +229,7 @@ public class BookingsView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Customers);
-        navbtn_Customers.setBounds(0, 380, 160, 40);
+        navbtn_Customers.setBounds(0, 380, 170, 40);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(null);
@@ -559,7 +588,7 @@ public class BookingsView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(NavBar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavBar, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -595,6 +624,8 @@ public class BookingsView extends javax.swing.JFrame {
 
     private void navbtn_BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BookingActionPerformed
         // TODO add your handling code here:
+        new BookingsView().setVisible(true);
+        dispose();  
     }//GEN-LAST:event_navbtn_BookingActionPerformed
  public String[] calculateBooking(String vehicleNo, String Brand,String Model,int Rate,int Days,String SpecialReq,int Surcharge,String customerName,String customerPhone,String bookingDate,String returnDate){
      int subAmt=Rate*Days;
@@ -788,7 +819,7 @@ private void BookVehicle(){
             
                     int customerID = searchCustomerID(customerPhone);
 
-int bookingID=generateBookingID();
+        int bookingID=generateBookingID();
         newForm = new  BookingSlipModel(vehicleNo, rateValue, daysValue, surchargeValue, taxValue, totalValue, customerName, customerPhone, total,collateral,advaAmt,bookingID);
        
         // Insert values into the database table
@@ -796,6 +827,17 @@ int bookingID=generateBookingID();
 
         if (insertSuccess) {
             updateStatusToNotAvailable(vehicleNo);
+//           Insert Payment Data:
+        boolean paymentInsertSuccess = insertPaymentData(advancePayment, "Advance", customerID);        
+        if (paymentInsertSuccess) {
+            BookingSlipView bsv1 = new BookingSlipView();
+//          
+            bsv1.setBookingSlipViewModel(newForm);
+            bsv1.show();
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to insert payment data.");
+        }
+            
             BookingSlipView bsv1 = new BookingSlipView();
             bsv1.setBookingSlipViewModel(newForm);
             bsv1.show();
@@ -806,6 +848,31 @@ int bookingID=generateBookingID();
     }
 }
 }
+
+// Adding Advance payment to the Database:
+private boolean insertPaymentData(double amount, String paymentType, int customerID) {
+    try {
+        Connection connection = dbConnection.dbconnect();
+        String query = "INSERT INTO payment (PayDate, amount, PaymentType, customerID) VALUES (CURDATE(), ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setDouble(1, amount);
+        statement.setString(2, paymentType);
+        statement.setInt(3, customerID);
+
+        int rowsAffected = statement.executeUpdate();
+        statement.close();
+        connection.close();
+
+        return rowsAffected > 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
+    }
+}
+
+
+
+
 //Method to generate bookingID
 
 
@@ -991,7 +1058,8 @@ String returnDate = retDate.format(dateFormatter);
     }//GEN-LAST:event_btn_calculateActionPerformed
 
     private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
-        // TODO add your handling code here:
+new CustomersView().setVisible(true);
+        dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_CustomersActionPerformed
 
     private void advAmtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_advAmtActionPerformed
@@ -1001,6 +1069,18 @@ String returnDate = retDate.format(dateFormatter);
     private void bk_CollateralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bk_CollateralActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bk_CollateralActionPerformed
+
+    private void navbtn_TransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_TransactionsActionPerformed
+        new Transactions().setVisible(true);
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_navbtn_TransactionsActionPerformed
+
+    private void navbtn_bookHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_bookHistoryActionPerformed
+        // TODO add your handling code here:
+        new BookingListView().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_navbtn_bookHistoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1085,7 +1165,9 @@ String returnDate = retDate.format(dateFormatter);
     private javax.swing.JButton navbtn_Booking;
     private javax.swing.JButton navbtn_Customers;
     private javax.swing.JButton navbtn_Dashboard;
+    private javax.swing.JButton navbtn_Transactions;
     private javax.swing.JButton navbtn_Vehicles;
+    private javax.swing.JButton navbtn_bookHistory;
     private javax.swing.JLabel sum_Rate;
     private javax.swing.JLabel sum_customer;
     private javax.swing.JLabel sum_days;

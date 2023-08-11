@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import Model.ReturnModel;
+import java.awt.Toolkit;
 import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 /**
@@ -30,6 +31,8 @@ private int bookingId;
 private double total, rate,advancePayment;
 private Date returnDate;
 private String vehicleNo;
+private double RemainingAmt;
+private int customerId;
 
 
     /**
@@ -37,87 +40,111 @@ private String vehicleNo;
      */
     public ReturnVehicle() {
         initComponents();
+        setTitle("RideX: Checkout Vehicle Rental");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
     }
 
     
-    public void searchBooking(){
-                String bookingIdString = ret_bkNo.getText();
-                  if (bookingIdString.isEmpty()) {
-                      JOptionPane.showMessageDialog(this, "Please enter a booking ID.");
-                      return;
-                  }
-
-                  try {
-                      // Validate and parse the booking ID
-                      bookingId = Integer.parseInt(bookingIdString);
-                  } catch (NumberFormatException ex) {
-                      JOptionPane.showMessageDialog(this, "Invalid booking ID. Please enter a valid integer.");
-                      return;
-                  }
-
-                try {
-                    // Connect to the database
-                    Connection connection = dbConnection.dbconnect();
-
-                    // Prepare the SQL query
-                    String query = "SELECT * FROM booking WHERE bookingId = ?";
-                    PreparedStatement statement = connection.prepareStatement(query);
-                    statement.setInt(1, bookingId);
-
-                    // Execute the query
-                    ResultSet resultSet = statement.executeQuery();
-
-                    // Process the results
-                    if (resultSet.next()) {
-                        vehicleNo = resultSet.getString("vehicleNo");
-                       
-                        Date bookingDate = resultSet.getDate("bookingDate");
-                        returnDate = resultSet.getDate("returnDate");
-                        String specialRequest = resultSet.getString("specialRequest");
-                        total = resultSet.getDouble("total");
-                        advancePayment = resultSet.getDouble("advancePayment");
-                        String collateral = resultSet.getString("collateral");
-                        int customerId = resultSet.getInt("customerID");
-                        rate= resultSet.getDouble("rate");
-
-                        labVehicleNo.setText(vehicleNo);
-                        labCusPhone.setText(getCustomerPhone(customerId));
-                        cusName.setText(getCustomerName(customerId));
-                        labCollateral.setText(collateral);
-                        labBookDate.setText(String.valueOf(bookingDate));
-                        labExpectRetDate.setText(String.valueOf(returnDate));
-                        labBookAmt.setText(String.valueOf(total));
-                        labAdvanceAmt.setText(String.valueOf(advancePayment));                      
-                      
-                    } else {
-                       JOptionPane.showMessageDialog(this, "No booking found with the specified ID.");
-                    }
-
-                    // Close the connections and statement
-                    resultSet.close();
-                    statement.close();
-                    connection.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+   public void searchBooking() {
+    String bookingIdString = ret_bkNo.getText();
+    if (bookingIdString.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter a booking ID.");
+        return;
     }
+
+    int bookingId;
+    try {
+        // Validate and parse the booking ID
+        bookingId = Integer.parseInt(bookingIdString);
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Invalid booking ID. Please enter a valid integer.");
+        return;
+    }
+
+    try {
+        // Connect to the database
+        Connection connection = dbConnection.dbconnect();
+
+        // Prepare the SQL query
+        String query = "SELECT * FROM booking WHERE bookingId = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setInt(1, bookingId);
+
+        // Execute the query
+        ResultSet resultSet = statement.executeQuery();
+
+        // Process the results
+        if (resultSet.next()) {
+            String bookingStatus = resultSet.getString("bookingStatus");
+            if ("Closed".equals(bookingStatus)) {
+                JOptionPane.showMessageDialog(this, "This booking is already closed.");
+                resultSet.close();
+                statement.close();
+                connection.close();
+                return;
+            }
+
+            // Process other booking details
+            vehicleNo = resultSet.getString("vehicleNo");
+            Date bookingDate = resultSet.getDate("bookingDate");
+            returnDate = resultSet.getDate("returnDate");
+            String specialRequest = resultSet.getString("specialRequest");
+            total = resultSet.getDouble("total");
+            advancePayment = resultSet.getDouble("advancePayment");
+            String collateral = resultSet.getString("collateral");
+            customerId = resultSet.getInt("customerID");
+            rate = resultSet.getDouble("rate");
+
+            labVehicleNo.setText(vehicleNo);
+            labCusPhone.setText(getCustomerPhone(customerId));
+            cusName.setText(getCustomerName(customerId));
+            labCollateral.setText(collateral);
+            labBookDate.setText(String.valueOf(bookingDate));
+            labExpectRetDate.setText(String.valueOf(returnDate));
+            labBookAmt.setText(String.valueOf(total));
+            labAdvanceAmt.setText(String.valueOf(advancePayment));
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No booking found with the specified ID.");
+        }
+
+        // Close the connections and statement
+        resultSet.close();
+        statement.close();
+        connection.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.WARNING: Do NOT modify this code.The content of this method is always
  regenerated by the Form Editor.
      * @param expectedReturnDate
      * @param Rate
      */
- public void proceedBooking(String expectedReturnDate,double Rate,double bookingAmt,double AdvanceAmt){
-       Date actualRetDate = ActualReturnDate.getDate();
-       String damageCharge=txtDamageCharge.getText();
-       double FineAmt=calculateFine(expectedReturnDate,actualRetDate,Rate);
-       txtLateFee.setText(String.valueOf("Rs. "+FineAmt));
-       labDamageCharge.setText("Rs. "+damageCharge);
-       double GrandTotal=bookingAmt+FineAmt+ Double.parseDouble(damageCharge);
-       labTotal.setText(String.valueOf(GrandTotal));
-       double RemainingAmt=GrandTotal-AdvanceAmt;
-       labRemainingAmt.setText(String.valueOf(RemainingAmt));
- }
+ public void proceedBooking(String expectedReturnDate, double Rate, double bookingAmt, double AdvanceAmt) {
+        Date actualRetDate = ActualReturnDate.getDate();
+        
+        if (actualRetDate == null) {
+            JOptionPane.showMessageDialog(null, "Please enter the actual return date.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String damageCharge = txtDamageCharge.getText();
+        
+        if (damageCharge.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter the damage charge.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double FineAmt = calculateFine(expectedReturnDate, actualRetDate, Rate);
+        txtLateFee.setText("Rs. " + FineAmt);
+        labDamageCharge.setText("Rs. " + damageCharge);
+        double GrandTotal = bookingAmt + FineAmt + Double.parseDouble(damageCharge);
+        labTotal.setText(String.valueOf(GrandTotal));
+        RemainingAmt = GrandTotal - AdvanceAmt;
+        labRemainingAmt.setText(String.valueOf(RemainingAmt));
+    }
    
 public static double calculateFine(String expectedReturnDateString, Date actualReturnDate, double rate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -229,11 +256,63 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
             }
         }
     }
+     
+//Method to update the Booking Status
+public void updateBookingStatusToClosed(int bookingId) {
+        Connection conn = dbConnection.dbconnect(); // Get the database connection
+
+        try {
+            // Prepare the SQL update statement
+            String sql = "UPDATE booking SET bookingStatus = 'Closed' WHERE bookingId = ?";
+            
+            try (PreparedStatement statement = conn.prepareStatement(sql)) {
+                // Set the bookingId parameter
+                statement.setInt(1, bookingId);
+
+                // Execute the update statement
+                int rowsAffected = statement.executeUpdate();
+                System.out.println(rowsAffected + " row(s) updated.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database connection
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }       
       
+//Inserting Payment data
+private boolean insertPaymentData(double amount, String paymentType, int customerID) {
+    try {
+        Connection connection = dbConnection.dbconnect();
+        String query = "INSERT INTO payment (PayDate, amount, PaymentType, customerID) VALUES (CURDATE(), ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setDouble(1, amount);
+        statement.setString(2, paymentType);
+        statement.setInt(3, customerID);
+
+        int rowsAffected = statement.executeUpdate();
+        statement.close();
+        connection.close();
+
+        return rowsAffected > 0;
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
+    }
+}
+
+
 //    Method called after button Pressed
    private void confirmReturn(){
        updateVehicleStatusToAvailable(vehicleNo);
-   
+       updateBookingStatusToClosed(bookingId);
+       insertPaymentData(RemainingAmt,"Final",customerId);
+               
    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -247,6 +326,8 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
         navbtn_Vehicles = new javax.swing.JButton();
         navbtn_Booking = new javax.swing.JButton();
         navbtn_Customers = new javax.swing.JButton();
+        navbtn_Transactions = new javax.swing.JButton();
+        navbtn_bookHistory = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         ActualReturnDate = new com.toedter.calendar.JDateChooser();
         labDamageCharge = new javax.swing.JLabel();
@@ -309,7 +390,7 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
             }
         });
         NavBar.add(navbtn_Billing);
-        navbtn_Billing.setBounds(0, 530, 160, 40);
+        navbtn_Billing.setBounds(0, 530, 170, 40);
 
         navbtn_Dashboard.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Dashboard.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -321,7 +402,7 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
             }
         });
         NavBar.add(navbtn_Dashboard);
-        navbtn_Dashboard.setBounds(0, 330, 160, 40);
+        navbtn_Dashboard.setBounds(0, 330, 170, 40);
 
         navbtn_Vehicles.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Vehicles.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -333,7 +414,7 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
             }
         });
         NavBar.add(navbtn_Vehicles);
-        navbtn_Vehicles.setBounds(0, 430, 160, 40);
+        navbtn_Vehicles.setBounds(0, 430, 170, 40);
 
         navbtn_Booking.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Booking.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -345,7 +426,7 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
             }
         });
         NavBar.add(navbtn_Booking);
-        navbtn_Booking.setBounds(0, 480, 160, 40);
+        navbtn_Booking.setBounds(0, 480, 170, 40);
 
         navbtn_Customers.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Customers.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -357,7 +438,31 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
             }
         });
         NavBar.add(navbtn_Customers);
-        navbtn_Customers.setBounds(0, 380, 160, 40);
+        navbtn_Customers.setBounds(0, 380, 170, 40);
+
+        navbtn_Transactions.setBackground(new java.awt.Color(11, 16, 65));
+        navbtn_Transactions.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        navbtn_Transactions.setForeground(new java.awt.Color(255, 255, 255));
+        navbtn_Transactions.setText("Transactions");
+        navbtn_Transactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navbtn_TransactionsActionPerformed(evt);
+            }
+        });
+        NavBar.add(navbtn_Transactions);
+        navbtn_Transactions.setBounds(0, 630, 170, 40);
+
+        navbtn_bookHistory.setBackground(new java.awt.Color(11, 16, 65));
+        navbtn_bookHistory.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        navbtn_bookHistory.setForeground(new java.awt.Color(255, 255, 255));
+        navbtn_bookHistory.setText("Booking History");
+        navbtn_bookHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navbtn_bookHistoryActionPerformed(evt);
+            }
+        });
+        NavBar.add(navbtn_bookHistory);
+        navbtn_bookHistory.setBounds(0, 580, 180, 40);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(null);
@@ -597,14 +702,14 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/returnpageBG2.png"))); // NOI18N
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(700, 60, 630, 400);
+        jLabel3.setBounds(700, 50, 630, 400);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(NavBar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NavBar, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -619,10 +724,12 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void navbtn_BillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BillingActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_navbtn_BillingActionPerformed
 
     private void navbtn_DashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_DashboardActionPerformed
@@ -639,6 +746,8 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
 
     private void navbtn_BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BookingActionPerformed
         // TODO add your handling code here:
+        new BookingsView().setVisible(true);
+        dispose();
     }//GEN-LAST:event_navbtn_BookingActionPerformed
  
     
@@ -648,8 +757,9 @@ public static double calculateFine(String expectedReturnDateString, Date actualR
 
     private void btn_BookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BookActionPerformed
 confirmReturn();
-//String[] bookData=new String[8];
+new BillView().setVisible(true);
 
+//String[] bookData=new String[8];
     }//GEN-LAST:event_btn_BookActionPerformed
 
     private void btn_calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calculateActionPerformed
@@ -657,7 +767,8 @@ searchBooking();
     }//GEN-LAST:event_btn_calculateActionPerformed
 
     private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
-        // TODO add your handling code here:
+new CustomersView().setVisible(true);
+dispose();// TODO add your handling code here:
     }//GEN-LAST:event_navbtn_CustomersActionPerformed
 
     private void btn_calculate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_calculate1ActionPerformed
@@ -667,6 +778,18 @@ proceedBooking(String.valueOf(returnDate),rate,total,advancePayment);
     private void txtDamageChargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDamageChargeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDamageChargeActionPerformed
+
+    private void navbtn_TransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_TransactionsActionPerformed
+        new Transactions().setVisible(true);
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_navbtn_TransactionsActionPerformed
+
+    private void navbtn_bookHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_bookHistoryActionPerformed
+        // TODO add your handling code here:
+        new BookingListView().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_navbtn_bookHistoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -747,7 +870,9 @@ proceedBooking(String.valueOf(returnDate),rate,total,advancePayment);
     private javax.swing.JButton navbtn_Booking;
     private javax.swing.JButton navbtn_Customers;
     private javax.swing.JButton navbtn_Dashboard;
+    private javax.swing.JButton navbtn_Transactions;
     private javax.swing.JButton navbtn_Vehicles;
+    private javax.swing.JButton navbtn_bookHistory;
     private javax.swing.JTextField ret_bkNo;
     private javax.swing.JTextField txtDamageCharge;
     private javax.swing.JLabel txtLateFee;

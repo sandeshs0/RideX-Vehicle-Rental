@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 import Controller.SignupController;
 import Model.SignupModel;
+import java.awt.Toolkit;
 import junit.framework.Assert;
 /**
  *
@@ -18,6 +19,9 @@ public class Signupview extends javax.swing.JFrame {
 
     public Signupview() {
         initComponents();
+        setTitle("Ridex- Signup");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -255,25 +259,18 @@ public class Signupview extends javax.swing.JFrame {
 
 
     private void btnsignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsignupActionPerformed
-
-                Assert.assertEquals("First name cannot be empty", false, txtfirstname.getText().isEmpty());
-                Assert.assertEquals("Last name cannot be empty", false, txtlastname.getText().isEmpty());
-                Assert.assertEquals("Phone Number cannot be empty", false, txtphone.getText().isEmpty());
-                 Assert.assertEquals("Password cannot be empty", false, txtpassword.getText().isEmpty());
-                 Assert.assertEquals("Passwords do not match", txtpassword.getText(), txtconpassword.getText());
-                 
-   String fname = txtfirstname.getText().trim();
+String fname = txtfirstname.getText().trim();
     String lname = txtlastname.getText().trim();
     String phn = txtphone.getText().trim();
     String pass = txtpassword.getText().trim();
     String conpass = txtconpassword.getText().trim();
    SignupModel obj=new SignupModel(fname,lname,phn,pass,conpass,"ss","ss");
    obj.registerAdmin();
-
-   
-
-
-
+                Assert.assertEquals("First name cannot be empty", false, txtfirstname.getText().isEmpty());
+                Assert.assertEquals("Last name cannot be empty", false, txtlastname.getText().isEmpty());
+                Assert.assertEquals("Phone Number cannot be empty", false, txtphone.getText().isEmpty());
+                 Assert.assertEquals("Password cannot be empty", false, txtpassword.getText().isEmpty());
+                 Assert.assertEquals("Passwords do not match", txtpassword.getText(), txtconpassword.getText());
     }//GEN-LAST:event_btnsignupActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

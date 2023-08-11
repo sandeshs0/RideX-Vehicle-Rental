@@ -14,6 +14,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import Controller.SignupController;
 import Controller.DashboardController;
+import java.awt.Toolkit;
 
 /**
  *
@@ -25,12 +26,15 @@ public class DashboardView extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
         DefaultTableModel model;
-       
-         
-
     public DashboardView() {
         initComponents();
+        setTitle("RideX: Admin Dashboard");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
         updateVehicleCards();
+        updateBookingCards();
+        updateOnRentCards();
+        updateAvailableVehCards();
+        updateOverdueCards();
         DashboardController obj=new DashboardController();
         obj.setRecordsToTable(tbl_vehicleData);
         
@@ -109,7 +113,134 @@ public class DashboardView extends javax.swing.JFrame {
         }
     }
     
+//Update Bookings Card
+    public void updateBookingCards(){
+        try {
+            // Get the database connection
+            Connection con = dbConnection.dbconnect();
 
+            // Create a prepared statement to query the count of entries in the "vehicle" table
+            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM booking");
+            
+            // Execute the query and retrieve the result set
+            ResultSet rs = pst.executeQuery();
+
+            // Check if the result set has a row
+            if (rs.next()) {
+                // Get the count from the result set
+                int count = rs.getInt("count");
+                
+                // Update the label with the count
+                txtBooking.setText(String.valueOf(count));
+            }
+            
+            // Close the result set, prepared statement, and database connection
+            rs.close();
+            pst.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any exceptions that occur during the database operation
+        }
+    }
+    
+//Update On-Rent Bookings
+    public void updateOnRentCards(){
+        try {
+            // Get the database connection
+            Connection con = dbConnection.dbconnect();
+
+            // Create a prepared statement to query the count of entries in the "vehicle" table
+            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM booking where bookingStatus='Active'");
+            
+            // Execute the query and retrieve the result set
+            ResultSet rs = pst.executeQuery();
+
+            // Check if the result set has a row
+            if (rs.next()) {
+                // Get the count from the result set
+                int count = rs.getInt("count");
+                
+                // Update the label with the count
+                txtOnRent.setText(String.valueOf(count));
+            }
+            
+            // Close the result set, prepared statement, and database connection
+            rs.close();
+            pst.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any exceptions that occur during the database operation
+        }
+    } 
+        public void updateAvailableVehCards(){
+        try {
+            // Get the database connection
+            Connection con = dbConnection.dbconnect();
+
+            // Create a prepared statement to query the count of entries in the "vehicle" table
+            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM vehicle where status='Available'");
+            
+            // Execute the query and retrieve the result set
+            ResultSet rs = pst.executeQuery();
+
+            // Check if the result set has a row
+            if (rs.next()) {
+                // Get the count from the result set
+                int count = rs.getInt("count");
+                
+                // Update the label with the count
+                txtAlerts.setText(String.valueOf(count));
+            }
+            
+            // Close the result set, prepared statement, and database connection
+            rs.close();
+            pst.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any exceptions that occur during the database operation
+        }
+    }
+
+//Update Overdue Card
+public void updateOverdueCards() {
+    try {
+        // Get the database connection
+        Connection con = dbConnection.dbconnect();
+
+        // Create a prepared statement to query the count of overdue bookings
+        PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM booking WHERE bookingStatus='Active' AND returnDate < CURDATE()");
+
+        // Execute the query and retrieve the result set
+        ResultSet rs = pst.executeQuery();
+
+        // Check if the result set has a row
+        if (rs.next()) {
+            // Get the count from the result set
+            
+            int count = rs.getInt("count");
+            
+
+            // Update the label with the count
+            txtOverdue.setText(String.valueOf(count));
+        }
+
+        // Close the result set, prepared statement, and database connection
+        rs.close();
+        pst.close();
+        con.close();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle any exceptions that occur during the database operation
+    }
+}
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -131,6 +262,9 @@ public class DashboardView extends javax.swing.JFrame {
         navbtn_Vehicles = new javax.swing.JButton();
         navbtn_Booking = new javax.swing.JButton();
         navbtn_Customers = new javax.swing.JButton();
+        navbtn_Transactions = new javax.swing.JButton();
+        navbtn_bookHistory = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         OnRentCard = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         txtOnRent = new javax.swing.JLabel();
@@ -154,11 +288,7 @@ public class DashboardView extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbl_vehicleData = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         txt_search = new javax.swing.JTextField();
-        btnViewProfile = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollBar1 = new javax.swing.JScrollBar();
@@ -220,7 +350,7 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Billing);
-        navbtn_Billing.setBounds(0, 530, 160, 40);
+        navbtn_Billing.setBounds(0, 530, 190, 40);
 
         navbtn_Dashboard.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Dashboard.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -232,7 +362,7 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Dashboard);
-        navbtn_Dashboard.setBounds(0, 330, 160, 40);
+        navbtn_Dashboard.setBounds(0, 330, 190, 40);
 
         navbtn_Vehicles.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Vehicles.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -244,7 +374,7 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Vehicles);
-        navbtn_Vehicles.setBounds(0, 430, 160, 40);
+        navbtn_Vehicles.setBounds(0, 430, 190, 40);
 
         navbtn_Booking.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Booking.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -256,7 +386,7 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Booking);
-        navbtn_Booking.setBounds(0, 480, 160, 40);
+        navbtn_Booking.setBounds(0, 480, 190, 40);
 
         navbtn_Customers.setBackground(new java.awt.Color(11, 16, 65));
         navbtn_Customers.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
@@ -268,10 +398,47 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         NavBar.add(navbtn_Customers);
-        navbtn_Customers.setBounds(0, 380, 160, 40);
+        navbtn_Customers.setBounds(0, 380, 190, 40);
+
+        navbtn_Transactions.setBackground(new java.awt.Color(11, 16, 65));
+        navbtn_Transactions.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        navbtn_Transactions.setForeground(new java.awt.Color(255, 255, 255));
+        navbtn_Transactions.setText("Transactions");
+        navbtn_Transactions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navbtn_TransactionsActionPerformed(evt);
+            }
+        });
+        NavBar.add(navbtn_Transactions);
+        navbtn_Transactions.setBounds(0, 630, 190, 40);
+
+        navbtn_bookHistory.setBackground(new java.awt.Color(11, 16, 65));
+        navbtn_bookHistory.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
+        navbtn_bookHistory.setForeground(new java.awt.Color(255, 255, 255));
+        navbtn_bookHistory.setText("Booking History");
+        navbtn_bookHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                navbtn_bookHistoryActionPerformed(evt);
+            }
+        });
+        NavBar.add(navbtn_bookHistory);
+        navbtn_bookHistory.setBounds(0, 580, 190, 40);
+
+        jButton1.setBackground(new java.awt.Color(221, 229, 239));
+        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/log-out.png"))); // NOI18N
+        jButton1.setText("LOGOUT");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        NavBar.add(jButton1);
+        jButton1.setBounds(0, 700, 180, 50);
 
         getContentPane().add(NavBar);
-        NavBar.setBounds(0, 0, 160, 880);
+        NavBar.setBounds(0, 0, 190, 880);
 
         OnRentCard.setBackground(new java.awt.Color(68, 160, 116));
         OnRentCard.setLayout(null);
@@ -346,9 +513,9 @@ public class DashboardView extends javax.swing.JFrame {
 
         AlertsLab.setFont(new java.awt.Font("Dubai Medium", 0, 24)); // NOI18N
         AlertsLab.setForeground(new java.awt.Color(255, 255, 255));
-        AlertsLab.setText("Alerts");
+        AlertsLab.setText("Available Vehicle");
         AlertsCard.add(AlertsLab);
-        AlertsLab.setBounds(10, 110, 90, 42);
+        AlertsLab.setBounds(10, 110, 170, 42);
 
         AlertsCardBtn.setBackground(new java.awt.Color(186, 111, 18));
         AlertsCardBtn.setBorder(null);
@@ -433,12 +600,7 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
         jLabel4.setText("Search Vehicle");
         jPanel2.add(jLabel4);
-        jLabel4.setBounds(50, 570, 290, 53);
-
-        jLabel2.setFont(new java.awt.Font("Yu Gothic Medium", 1, 32)); // NOI18N
-        jLabel2.setText("Query Customers");
-        jPanel2.add(jLabel2);
-        jLabel2.setBounds(50, 330, 290, 53);
+        jLabel4.setBounds(80, 480, 290, 53);
 
         txt_search.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_search.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -448,35 +610,11 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
         jPanel2.add(txt_search);
-        txt_search.setBounds(130, 620, 390, 50);
-
-        btnViewProfile.setBackground(new java.awt.Color(0, 0, 0));
-        btnViewProfile.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnViewProfile.setForeground(new java.awt.Color(255, 255, 255));
-        btnViewProfile.setText("View Profile");
-        btnViewProfile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewProfileActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnViewProfile);
-        btnViewProfile.setBounds(440, 390, 130, 50);
-
-        jTextField2.setBackground(new java.awt.Color(232, 247, 255));
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(102, 102, 102));
-        jTextField2.setText("  Phone Number");
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.add(jTextField2);
-        jTextField2.setBounds(60, 390, 340, 50);
-
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/querycusBG.png"))); // NOI18N
-        jPanel2.add(jLabel20);
-        jLabel20.setBounds(20, 300, 640, 190);
+        txt_search.setBounds(160, 530, 390, 50);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/smallbg.png"))); // NOI18N
         jPanel2.add(jLabel3);
-        jLabel3.setBounds(20, 490, 650, 290);
+        jLabel3.setBounds(50, 400, 650, 290);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ratelistBG.png"))); // NOI18N
         jPanel2.add(jLabel6);
@@ -494,10 +632,6 @@ public class DashboardView extends javax.swing.JFrame {
 
         setBounds(0, 0, 1550, 1087);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnViewProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewProfileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnViewProfileActionPerformed
 
     private void navbtn_BillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BillingActionPerformed
         // TODO add your handling code here:
@@ -522,6 +656,8 @@ public class DashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_navbtn_BookingActionPerformed
 
     private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
+new CustomersView().setVisible(true);
+dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_navbtn_CustomersActionPerformed
 
@@ -558,6 +694,24 @@ new VehiclesView().setVisible(true);
     private void OverdueCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OverdueCardBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_OverdueCardBtnActionPerformed
+
+    private void navbtn_TransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_TransactionsActionPerformed
+        new Transactions().setVisible(true);
+        dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_navbtn_TransactionsActionPerformed
+
+    private void navbtn_bookHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_bookHistoryActionPerformed
+        // TODO add your handling code here:
+        new BookingListView().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_navbtn_bookHistoryActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+new landingView().setVisible(true); 
+dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -606,12 +760,10 @@ new VehiclesView().setVisible(true);
     private javax.swing.JPanel OverdueCard;
     private javax.swing.JButton OverdueCardBtn;
     private javax.swing.JLabel bookinglab;
-    private javax.swing.JButton btnViewProfile;
     private java.awt.Canvas canvas1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -624,12 +776,13 @@ new VehiclesView().setVisible(true);
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton navbtn_Billing;
     private javax.swing.JButton navbtn_Booking;
     private javax.swing.JButton navbtn_Customers;
     private javax.swing.JButton navbtn_Dashboard;
+    private javax.swing.JButton navbtn_Transactions;
     private javax.swing.JButton navbtn_Vehicles;
+    private javax.swing.JButton navbtn_bookHistory;
     private javax.swing.JButton onRentCardBtn;
     private javax.swing.JTable tbl_vehicleData;
     private javax.swing.JLabel txtAlerts;

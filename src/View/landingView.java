@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+
+import java.awt.Toolkit;
+
 /**
  *
  * @author Asus
@@ -14,6 +17,8 @@ public class landingView extends javax.swing.JFrame {
      */
     public landingView() {
         initComponents();
+        setTitle("Welcome to RideX- Vehicle Rental Management System");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
     }
 
     /**
@@ -160,6 +165,7 @@ public class landingView extends javax.swing.JFrame {
         jPanel2.setBounds(0, 140, 1480, 670);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void signupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupActionPerformed

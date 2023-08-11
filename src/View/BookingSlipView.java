@@ -10,6 +10,7 @@ import java.awt.print.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Toolkit;
 import java.io.FileOutputStream;
 
 import javax.swing.JPanel;
@@ -24,6 +25,9 @@ public class BookingSlipView extends javax.swing.JFrame {
      */
     public BookingSlipView() {
         initComponents();
+        setTitle("Booking Slip");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
+
     }
     
     public void setBookingSlipViewModel(BookingSlipModel bsv1){
