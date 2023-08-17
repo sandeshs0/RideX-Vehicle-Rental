@@ -12,234 +12,46 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import Controller.SignupController;
 import Controller.DashboardController;
+import Model.DashboardModel;
 import java.awt.Toolkit;
+import DAO.DashboardDAO;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
-/**
- *
- * @author Sandesh
- */
 public class DashboardView extends javax.swing.JFrame {
+    DefaultTableModel model;
+    
+    
 
-    /**
-     * Creates new form Dashboard
-     */
-        DefaultTableModel model;
+    private DashboardController dashboardController;
+
     public DashboardView() {
         initComponents();
         setTitle("RideX: Admin Dashboard");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/logo.png")));
-        updateVehicleCards();
-        updateBookingCards();
-        updateOnRentCards();
-        updateAvailableVehCards();
-        updateOverdueCards();
-        DashboardController obj=new DashboardController();
-        obj.setRecordsToTable(tbl_vehicleData);
-        
-        
-        
-//        x.getClass() 
-//        setRecordsToTable();
-        System.out.println(tbl_vehicleData.getClass());
-        
+
+DashboardController controller = new DashboardController(
+    this, // DashboardView instance
+    new DashboardModel(), // Create a new DashboardModel instance
+    new DashboardDAO() // Create a new DashboardDAO instance
+);
+
+
+        // Call the method to update the dashboard when the form is initialized
+        updateDashboard(new DashboardModel());
     }
-    
-//    public void setRecordsToTable(){
-//        try{
-//            Connection con = dbConnection.dbconnect();
-//            PreparedStatement pst = con.prepareStatement("select * from vehicle");
-//            ResultSet rs = pst.executeQuery();
-//            
-//            while(rs.next()){
-//                
-//                String vehiclebrand = rs.getString("brand");
-//                String vehiclemodel = rs.getString("model");
-//                
-//                String fuel = rs.getString("fuel");
-//                String rate = rs.getString("rate");
-//           
-//
-//                
-//                
-//                Object[] obj = {vehiclebrand,vehiclemodel,fuel,rate};
-//                model = (DefaultTableModel)tbl_vehicleData.getModel();
-//                model.addRow(obj);
-//            }
-//        
-//        
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    
- public void search(String str){
-        model = (DefaultTableModel)tbl_vehicleData.getModel();
-        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
-        tbl_vehicleData.setRowSorter(trs);
-       trs.setRowFilter(RowFilter.regexFilter(str));
-       
+    public void updateDashboard(DashboardModel dm) {
+        DashboardDAO dd= new DashboardDAO();
+        DashboardModel dashboardModel = dd.getDashboardData();
+        txtVehiclesCard.setText(String.valueOf(dd.getTotalVehicles()));
+        txtBooking.setText(String.valueOf(dd.getTotalBookings()));
+        txtOnRent.setText(String.valueOf(dd.getOnRentBookings()));
+        txtAlerts.setText(String.valueOf(dd.getAvailableVehicles()));
+        txtOverdue.setText(String.valueOf(dd.getOverdueBookings()));
     }
- 
-    public void updateVehicleCards(){
-        try {
-            // Get the database connection
-            Connection con = dbConnection.dbconnect();
-
-            // Create a prepared statement to query the count of entries in the "vehicle" table
-            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM vehicle");
-            
-            // Execute the query and retrieve the result set
-            ResultSet rs = pst.executeQuery();
-
-            // Check if the result set has a row
-            if (rs.next()) {
-                // Get the count from the result set
-                int count = rs.getInt("count");
-                
-                // Update the label with the count
-                txtVehiclesCard.setText(String.valueOf(count));
-            }
-            
-            // Close the result set, prepared statement, and database connection
-            rs.close();
-            pst.close();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any exceptions that occur during the database operation
-        }
-    }
-    
-//Update Bookings Card
-    public void updateBookingCards(){
-        try {
-            // Get the database connection
-            Connection con = dbConnection.dbconnect();
-
-            // Create a prepared statement to query the count of entries in the "vehicle" table
-            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM booking");
-            
-            // Execute the query and retrieve the result set
-            ResultSet rs = pst.executeQuery();
-
-            // Check if the result set has a row
-            if (rs.next()) {
-                // Get the count from the result set
-                int count = rs.getInt("count");
-                
-                // Update the label with the count
-                txtBooking.setText(String.valueOf(count));
-            }
-            
-            // Close the result set, prepared statement, and database connection
-            rs.close();
-            pst.close();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any exceptions that occur during the database operation
-        }
-    }
-    
-//Update On-Rent Bookings
-    public void updateOnRentCards(){
-        try {
-            // Get the database connection
-            Connection con = dbConnection.dbconnect();
-
-            // Create a prepared statement to query the count of entries in the "vehicle" table
-            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM booking where bookingStatus='Active'");
-            
-            // Execute the query and retrieve the result set
-            ResultSet rs = pst.executeQuery();
-
-            // Check if the result set has a row
-            if (rs.next()) {
-                // Get the count from the result set
-                int count = rs.getInt("count");
-                
-                // Update the label with the count
-                txtOnRent.setText(String.valueOf(count));
-            }
-            
-            // Close the result set, prepared statement, and database connection
-            rs.close();
-            pst.close();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any exceptions that occur during the database operation
-        }
-    } 
-        public void updateAvailableVehCards(){
-        try {
-            // Get the database connection
-            Connection con = dbConnection.dbconnect();
-
-            // Create a prepared statement to query the count of entries in the "vehicle" table
-            PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM vehicle where status='Available'");
-            
-            // Execute the query and retrieve the result set
-            ResultSet rs = pst.executeQuery();
-
-            // Check if the result set has a row
-            if (rs.next()) {
-                // Get the count from the result set
-                int count = rs.getInt("count");
-                
-                // Update the label with the count
-                txtAlerts.setText(String.valueOf(count));
-            }
-            
-            // Close the result set, prepared statement, and database connection
-            rs.close();
-            pst.close();
-            con.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any exceptions that occur during the database operation
-        }
-    }
-
-//Update Overdue Card
-public void updateOverdueCards() {
-    try {
-        // Get the database connection
-        Connection con = dbConnection.dbconnect();
-
-        // Create a prepared statement to query the count of overdue bookings
-        PreparedStatement pst = con.prepareStatement("SELECT COUNT(*) AS count FROM booking WHERE bookingStatus='Active' AND returnDate < CURDATE()");
-
-        // Execute the query and retrieve the result set
-        ResultSet rs = pst.executeQuery();
-
-        // Check if the result set has a row
-        if (rs.next()) {
-            // Get the count from the result set
-            
-            int count = rs.getInt("count");
-            
-
-            // Update the label with the count
-            txtOverdue.setText(String.valueOf(count));
-        }
-
-        // Close the result set, prepared statement, and database connection
-        rs.close();
-        pst.close();
-        con.close();
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Handle any exceptions that occur during the database operation
-    }
-}
         
     /**
      * This method is called from within the constructor to initialize the form.
@@ -247,7 +59,7 @@ public void updateOverdueCards() {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -593,6 +405,12 @@ public void updateOverdueCards() {
             }
         });
         jScrollPane2.setViewportView(tbl_vehicleData);
+        DashboardController controller = new DashboardController(
+            this, // DashboardView instance
+            new DashboardModel(), // Create a new DashboardModel instance
+            new DashboardDAO() // Create a new DashboardDAO instance
+        );
+        controller.setRecordsToTable(tbl_vehicleData);
 
         jPanel2.add(jScrollPane2);
         jScrollPane2.setBounds(750, 360, 560, 380);
@@ -631,87 +449,92 @@ public void updateOverdueCards() {
         jPanel2.setBounds(160, 0, 1370, 880);
 
         setBounds(0, 0, 1550, 1087);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void navbtn_BillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BillingActionPerformed
+    private void navbtn_BillingActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_navbtn_BillingActionPerformed
+    }                                              
 
-    private void navbtn_DashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_DashboardActionPerformed
+    private void navbtn_DashboardActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
-    }//GEN-LAST:event_navbtn_DashboardActionPerformed
+    }                                                
 
-    private void navbtn_VehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_VehiclesActionPerformed
+    private void navbtn_VehiclesActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
        new VehiclesView().setVisible(true);
                dispose();
 
-    }//GEN-LAST:event_navbtn_VehiclesActionPerformed
+    }                                               
 
-    private void navbtn_BookingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_BookingActionPerformed
+    private void navbtn_BookingActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
         new BookingsView().setVisible(true);
         dispose();
-    }//GEN-LAST:event_navbtn_BookingActionPerformed
+    }                                              
 
-    private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_CustomersActionPerformed
+    private void navbtn_CustomersActionPerformed(java.awt.event.ActionEvent evt) {                                                 
 new CustomersView().setVisible(true);
 dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_navbtn_CustomersActionPerformed
-
-    private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_searchKeyReleased
+    }                                                
+public void search(String str){
+        model = (DefaultTableModel)tbl_vehicleData.getModel();
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
+        tbl_vehicleData.setRowSorter(trs);
+       trs.setRowFilter(RowFilter.regexFilter(str));
+    }
+    private void txt_searchKeyReleased(java.awt.event.KeyEvent evt) {                                       
         String searchString = txt_search.getText();
         search(searchString);        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_searchKeyReleased
+    }                                      
 
-    private void tbl_vehicleDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_vehicleDataMouseClicked
+    private void tbl_vehicleDataMouseClicked(java.awt.event.MouseEvent evt) {                                             
 
         int rowNo = tbl_vehicleData.getSelectedRow();
         TableModel model = tbl_vehicleData.getModel();
 
-    }//GEN-LAST:event_tbl_vehicleDataMouseClicked
+    }                                            
 
-    private void vehicleCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehicleCardBtnActionPerformed
+    private void vehicleCardBtnActionPerformed(java.awt.event.ActionEvent evt) {                                               
 new VehiclesView().setVisible(true);
                dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_vehicleCardBtnActionPerformed
+    }                                              
 
-    private void onRentCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRentCardBtnActionPerformed
+    private void onRentCardBtnActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
-    }//GEN-LAST:event_onRentCardBtnActionPerformed
+    }                                             
 
-    private void BookingCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BookingCardBtnActionPerformed
+    private void BookingCardBtnActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
-    }//GEN-LAST:event_BookingCardBtnActionPerformed
+    }                                              
 
-    private void AlertsCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlertsCardBtnActionPerformed
+    private void AlertsCardBtnActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
-    }//GEN-LAST:event_AlertsCardBtnActionPerformed
+    }                                             
 
-    private void OverdueCardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OverdueCardBtnActionPerformed
+    private void OverdueCardBtnActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
-    }//GEN-LAST:event_OverdueCardBtnActionPerformed
+    }                                              
 
-    private void navbtn_TransactionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_TransactionsActionPerformed
+    private void navbtn_TransactionsActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         new Transactions().setVisible(true);
         dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_navbtn_TransactionsActionPerformed
+    }                                                   
 
-    private void navbtn_bookHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_navbtn_bookHistoryActionPerformed
+    private void navbtn_bookHistoryActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         // TODO add your handling code here:
         new BookingListView().setVisible(true);
         dispose();
-    }//GEN-LAST:event_navbtn_bookHistoryActionPerformed
+    }                                                  
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
 new landingView().setVisible(true); 
 dispose();
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }                                        
 
     /**
      * @param args the command line arguments
@@ -749,7 +572,7 @@ dispose();
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JPanel AlertsCard;
     private javax.swing.JButton AlertsCardBtn;
     private javax.swing.JLabel AlertsLab;
@@ -793,5 +616,5 @@ dispose();
     private javax.swing.JTextField txt_search;
     private javax.swing.JPanel vechiclesOnFleetCard;
     private javax.swing.JButton vehicleCardBtn;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
